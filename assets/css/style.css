@@ -1,10 +1,18 @@
 html {
-    /* font-size: 10px;
-    background: url(http://i.imgur.com/b9r5sEL.jpg) bottom center;
+    /* font-size: 10px; */
+    /* background: url(/assets/images/sky-29.jpg) bottom center;
+    background-size: 100%;
     background-size: cover; */
+    
+
+    /* background: url(http://i.imgur.com/b9r5sEL.jpg) bottom center; */
+    /* background-size: cover; */
   }
   
   body,html {
+    background: url(/assets/images/sky-29.jpg) bottom center;
+    background-size: 100%;
+    background-size: cover;
     margin: 0;
     padding: 0;
     font-family: sans-serif;
@@ -48,5 +56,11 @@ html {
     text-transform: uppercase;
     letter-spacing: .1rem;
     color: #ffc600;
+  }
+  
+  #employee-table th,
+  td {
+    display: inline-block;
+    width: 16.575%;
   }
   
