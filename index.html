@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+
+<html lang="en-us">
+
+<head>
+
+    <meta charset="UTF-8">
+    <title>WeatherMe</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="assets/css/reset.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lemon">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=BioRhyme+Expanded">
+    <link rel="stylesheet" type="text/css" media="screen" href="assets/css/style.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="assets/css/style2.css" />
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <!-- Firebase Reference -->
+    <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+
+    <!-- Moment.js Reference -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+
+    <style>
+        #employee-table th,
+    td {
+      display: inline-block;
+      width: 16.575%;
+    }
+  </style>
+</head>
+
+<body>
+
+    <!-- What we are about - I want to make the black change to the user's input and show map&weather -->
+
+    <!-- Jumbotron -->
+    <div class="jumbotron jumbotron-fluid" style="background-color: black; color: white">
+        <h1 class="text-center">What's the Weather?</h1>
+        <h3 class="text-center">Find out the weather and what to wear in one place!</h3>
+    </div>
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-12">
+
+                <div class="keys">
+                    <div data-key="65" class="key">
+                        <kbd>Monday</kbd>
+                        <span class="sound">Sunny</span>
+                    </div>
+                    <div data-key="83" class="key">
+                        <kbd>Tuesday</kbd>
+                        <span class="sound">Rain</span>
+                    </div>
+                    <div data-key="68" class="key">
+                        <kbd>Wednesday</kbd>
+                        <span class="sound">Snow</span>
+                    </div>
+                    <div data-key="70" class="key">
+                        <kbd>Thursday</kbd>
+                        <span class="sound">Windy</span>
+                    </div>
+                    <div data-key="71" class="key">
+                        <kbd>Friday</kbd>
+                        <span class="sound">Clear</span>
+                    </div>
+                    <div data-key="72" class="key">
+                        <kbd>Saturday</kbd>
+                        <span class="sound">Sleet</span>
+                    </div>
+                    <div data-key="74" class="key">
+                        <kbd>Sunday</kbd>
+                        <span class="sound">Sunny</span>
+                    </div>
+                    <!-- <div data-key="75" class="key">
+                <kbd>K</kbd>
+                <span class="sound">tom</span>
+            </div>
+            <div data-key="76" class="key">
+                <kbd>L</kbd>
+                <span class="sound">tink</span>
+            </div> -->
+                </div>
+
+                <audio data-key="65" src="sounds/clap.wav"></audio>
+                <audio data-key="83" src="sounds/hihat.wav"></audio>
+                <audio data-key="68" src="sounds/kick.wav"></audio>
+                <audio data-key="70" src="sounds/openhat.wav"></audio>
+                <audio data-key="71" src="sounds/boom.wav"></audio>
+                <audio data-key="72" src="sounds/ride.wav"></audio>
+                <audio data-key="74" src="sounds/snare.wav"></audio>
+                <audio data-key="75" src="sounds/tom.wav"></audio>
+                <audio data-key="76" src="sounds/tink.wav"></audio>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-12">
+
+                <!-- Current Employees-->
+                <div class="card mb-4">
+                    <div class="card-header">City Weather Lookup</div>
+                    <div class="card-body">
+                        <table class="table table-sm table-hover table-dark" id='employee-table'>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Current Temp</th>
+                                    <th scope="col">Temp High</th>
+                                    <th scope="col">Temp Low</th>
+                                    <th scope="col">Humidity</th>
+                                    <th scope="col">Wind</th>
+                                    <th scope="col">Clouds</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Add City  -->
+                <div class="card mb-4">
+                    <div class="card-header">Add City</div>
+                    <div class="card-body">
+
+                        <!-- Entry Form -->
+                        <form>
+                            <div class="form-group">
+                                <label for="employee-name-input">City</label>
+                                <input class="form-control" id="employee-name-input" placeholder="City Name" type="text">
+                            </div>
+                            <div class="form-group">
+                                <label for="role-input">Zip Code</label>
+                                <input class="form-control" id="role-input" placeholder="zipcode" type="text">
+                            </div>
+                            <div class="form-group">
+                                <label for="start-input">City ID</label>
+                                <input class="form-control" id="start-input" placeholder="City ID" type="text">
+                            </div>
+                            <div class="form-group">
+                                <label for="rate-input">Country</label>
+                                <input class="form-control" id="rate-input" placeholder="Country" type="text">
+                            </div>
+                            <button class="btn btn-success float-right" id="add-employee-btn">Submit</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script src="/assets/javascript/app.js"></script>
+</body>
+
+</html>
