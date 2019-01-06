@@ -10,7 +10,7 @@ html {
   }
   
   body,html {
-    background: url(/assets/images/sky-29.jpg) bottom center;
+    background: url(../images/sky-29.jpg) bottom center;
     background-size: 100%;
     background-size: cover;
     margin: 0;
