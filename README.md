@@ -29,3 +29,5 @@ Person2: Research, then setup weather API.  Pull and place relevant data from AP
 Person 3: Research, then setup Places API.  Pull and place relevant data from API into each page
 
 Person 4: Setup firebase database to dynamically store data
+=======
+
