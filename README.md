@@ -3,17 +3,18 @@
 ## Team
 
 This is the team for project 1.  Team Members are:
+
 * Kelsie Daniels
 * Justin Thomas
 * Michael Wilson
 * Paul Linck
-
 
 ## Project Description:
 
 This is a location/weather application.  You will be able populate weather information and top restaurants in any given city.  You will also be able add buttons for your favorite cities to search
 
 ## Sketch of Final Project
+![Screen Example](assets/images/WeatherSketch.jpg)
 
 ## APIs Used:
 Open Weather API
