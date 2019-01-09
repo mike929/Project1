@@ -20,7 +20,7 @@
 
 // Initialize Firebase
 var config = {
-    apiKey: "AIzaSyC1rPD9yqt2-9mk-T2WEwmFAc4uzYYr1UI",
+    apiKey: PAUL_FBWEATHER_APIKEY,
     authDomain: "weatherdashboard-47786.firebaseapp.com",
     databaseURL: "https://weatherdashboard-47786.firebaseio.com",
     projectId: "weatherdashboard-47786",
