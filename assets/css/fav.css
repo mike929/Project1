@@ -8,6 +8,8 @@
 body {
     font-family: "SF Pro Display", "Helvetica Neue", Georgia, "Times New Roman", Times, serif;
     background-image: url("../images/sky-29.jpg");
+    background-size: 100%;
+    background-size: cover;
     background-repeat: repeat;
     background-color: #ffffff;
     margin: 0;
