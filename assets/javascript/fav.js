@@ -120,6 +120,14 @@ function favoriteRemoveFromArray(favorites, key) {
     }
 }
 
+// Get item firebase DB
+function favoriteGet(key, aCallback) {
+    favoritesRef.child(key).once('value', function (snap) {
+        aCallback(snap.val());
+    });
+}
+
+
 // Add to firebase DB
 function favoriteAdd(favoriteObj) {
     // Add object to firebase to the database
@@ -169,6 +177,19 @@ $(document).ready(function () {
         $("#city").val("");
         $("#state").val("");
         $("#zipCode").val("");
+    });
+
+    // Select a row/favorite 
+    $(document.body).on("click", "#favorites-table-data tr", function () {
+        var key = $(this).attr("data-key");
+
+        // Show the one clicked - get it
+        favoriteGet(key, function(favoriteObj) {
+            console.log(favoriteObj);
+        });
+
+        // Show the weather, places, map for this favorite
+
     });
 
     // Delete 

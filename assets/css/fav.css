@@ -68,6 +68,10 @@ section {
     color: #ffffff;
 }
 
+#favorites-table-data tr:hover {
+    background-color: #D8DA5C;
+}
+
 .form-input {
     width: 90%;
     border: 1px solid black;
