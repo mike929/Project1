@@ -8,6 +8,11 @@ html {
     /* background: url(http://i.imgur.com/b9r5sEL.jpg) bottom center; */
     /* background-size: cover; */
   }
+  .jumbotron {
+      background: rgb(200, 54, 54); /* This is for ie8 and below */
+      background: rgba(200, 54, 54, 0.5); 
+   }
+  
   
   body,html {
     background: url(../images/sky-29.jpg) bottom center;
