@@ -64,23 +64,51 @@ function errorRender(err) {
 function favoritesRender(favorites) {
 
     $("#favorites-table-data").empty();
+    let newRow;
 
     for (let i in favorites) {
         let favoriteObj = favorites[i];
 
-        let newRow = $(`<tr id="${favoriteObj.ref}" data-key="${favoriteObj.key}">`).append(
-            $("<td>").text(favoriteObj.city),
-            $("<td>").text(favoriteObj.state),
-            $("<td>").text(favoriteObj.zipCode),
-            $("<td>").text(favoriteObj.apiKeyWeather),
-            $("<td>").text(favoriteObj.apiKeyPlaces),
-            $("<td>").html(`<button class="delete" data-key="${favoriteObj.key}">Delete</button>`),
-            $("<td>").html(`<button class="update" data-key="${favoriteObj.key}">Edit</button>`)
-        );
-
+        if (favoriteObj.editMode) {
+            newRow = $(`<tr id="${favoriteObj.key}" data-key="${favoriteObj.key}">`).append(
+                $("<td>").html(`<input id="${favoriteObj.key}-name" type="text" value="${favoriteObj.name}"></input>`),
+                $("<td>").html(`<input id="${favoriteObj.key}-address" type="text" value="${favoriteObj.address}"></input>`),
+                $("<td>").html(`<input id="${favoriteObj.key}-city" type="text" value="${favoriteObj.city}"></input>`),
+                $("<td>").html(`<input id="${favoriteObj.key}-state" type="text" value="${favoriteObj.state}"></input>`),
+                $("<td>").html(`<input id="${favoriteObj.key}-zipCode" type="text" value="${favoriteObj.zipCode}"></input>`),
+                $("<td>").html(`<button class="delete" data-key="${favoriteObj.key}">Delete</button>`),
+                $("<td>").html(`<button class="update" data-key="${favoriteObj.key}">Update</button><button class="cancel" data-key="${favoriteObj.key}">Cancel</button>`)
+            );
+        } else {
+            newRow = $(`<tr id="${favoriteObj.key}" data-key="${favoriteObj.key}">`).append(
+                $("<td>").text(`${favoriteObj.name}`),
+                $("<td>").text(`${favoriteObj.address}`),
+                $("<td>").text(`${favoriteObj.city}`),
+                $("<td>").text(`${favoriteObj.state}`),
+                $("<td>").text(`${favoriteObj.zipCode}`),
+                $("<td>").html(`<button class="delete" data-key="${favoriteObj.key}">Delete</button>`),
+                $("<td>").html(`<button class="edit" data-key="${favoriteObj.key}">Edit</button>`)
+            );
+        }
         // Append the new row to the table
         $("#favorites-table-data").append(newRow);
     }
+}
+
+// change one items update mode 
+// when hitting 'edit' it goes into update mode
+// after hitting 'update' or 'cancel' it goes into non-update mode
+function itemUpdateEditMode(key, favorites, editMode) {
+    let favoriteObj = {};
+
+    // find it in the array
+    for (let i in favorites) {
+        if (favorites[i].key === key) {
+            favorites[i].editMode = editMode;
+        }
+    }
+
+    favoritesRender(favorites);
 }
 
 // remove a favorite from the array based on key
@@ -96,6 +124,14 @@ function favoriteRemoveFromArray(favorites, key) {
 function favoriteAdd(favoriteObj) {
     // Add object to firebase to the database
     favoritesRef.push(favoriteObj);
+}
+
+// Update item firebase DB
+function favoriteUpdate(key, favoriteObj) {
+    // Add object to firebase to the database
+    let favoriteRef = favoritesRef.child(key);
+
+    favoriteRef.set(favoriteObj);
 }
 
 // Delete from firebase DB
@@ -117,22 +153,22 @@ $(document).ready(function () {
         // Validate user Input
 
         let favoriteObj = {
+            name: $("#name").val().trim(),
+            address: $("#address").val().trim(),
             city: $("#city").val().trim(),
             state: $("#state").val().trim(),
             zipCode: $("#zipCode").val(),
-            apiKeyWeather: $("#apiKeyWeather").val().trim(),
-            apiKeyPlaces: $("#apiKeyPlaces").val().trim()
         };
 
         // Store It
         favoriteAdd(favoriteObj);
 
         // Clear text-boxes
+        $("#name").val("");
+        $("#address").val("");
         $("#city").val("");
         $("#state").val("");
         $("#zipCode").val("");
-        $("#apiKeyWeather").val("");
-        $("#apiKeyPlaces").val("");
     });
 
     // Delete 
@@ -150,12 +186,44 @@ $(document).ready(function () {
 
     });
 
+    // Edit a row 
+    $(document.body).on("click", ".edit", function () {
+        var key = $(this).attr("data-key");
+
+        itemUpdateEditMode(key, favorites, true);
+    });
+
+    // Cancel edittin a row 
+    $(document.body).on("click", ".cancel", function () {
+        var key = $(this).attr("data-key");
+
+        itemUpdateEditMode(key, favorites, false);
+    });
+
+    // Update 
+    $(document.body).on("click", ".update", function () {
+        var key = $(this).attr("data-key");
+
+        let favoriteObj = {
+            name: $(`#${key}-name`).val().trim(),
+            address: $(`#${key}-address`).val().trim(),
+            city: $(`#${key}-city`).val().trim(),
+            state: $(`#${key}-state`).val().trim(),
+            zipCode: $(`#${key}-zipCode`).val(),
+        };
+
+        // Update in firebase
+        favoriteUpdate(key, favoriteObj);
+        itemUpdateEditMode(key, favorites, false);
+    });
+
     // Each time a favorite is added to DB, add it to the list
     favoritesRef.on("child_added", function (snap) {
         let favoriteObj = snap.val();
         favoriteObj.key = snap.key;
 
         // Add to the memory datastore array 
+        favoriteObj.editMode = false; // Tells whether this should be renderred in edit mode
         favorites.push(favoriteObj);
 
         // re-render fav list

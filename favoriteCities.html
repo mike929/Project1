@@ -44,11 +44,11 @@
                     <table class="favorites" id='favorite-table'>
                         <thead>
                             <tr>
+                                <th>Name</th>
+                                <th>Address</th>
                                 <th>City</th>
                                 <th>State</th>
                                 <th>Zip Code</th>
-                                <th>Key Weather</th>
-                                <th>Key Places</th>                                
                                 <th>Delete</th>
                                 <th>Edit</th>
                             </tr>
@@ -65,24 +65,24 @@
                     <!-- Favorites form -->
                     <form class="form-input">
                         <div class="form-group">
+                            <label for="name">Name</label>
+                            <input id="name" placeholder="Hilton Back Bay" type="text">
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Address</label>
+                            <input id="address" placeholder="40 Dalton St" type="text">
+                        </div>
+                        <div class="form-group">
                             <label for="city">City</label>
-                            <input id="city" placeholder="Atlanta" type="text">
+                            <input id="city" placeholder="Boston" type="text">
                         </div>
                         <div class="form-group">
                             <label for="state">State</label>
-                            <input id="state" placeholder="GA" type="text">
+                            <input id="state" placeholder="MA" type="text">
                         </div>
                         <div class="form-group">
                             <label for="zipCode">Zip Code</label>
-                            <input id="zipCode" placeholder="30308" type="text">
-                        </div>
-                        <div class="form-group">
-                            <label for="apiKeyWeather">Key for Weather App</label>
-                            <input id="apiKeyWeather" placeholder="atlanta" type="text">
-                        </div>
-                        <div class="form-group">
-                            <label for="apiKeyPlaces">Key for Places App</label>
-                            <input id="apiKeyPlaces" placeholder="atlanta" type="text">
+                            <input id="zipCode" placeholder="02115" type="text">
                         </div>
                         <button class="submit" id="add-favorite-btn" value="Submit">Submit</button>
                         <button class="reset" type="reset" value="Clear">Clear</button>
