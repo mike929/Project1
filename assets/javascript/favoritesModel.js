@@ -1,9 +1,9 @@
 /* **********************************************************************************
  * Favorite Places - 
- * This module allows you to add, delete, modify and list favorite cities for 
- * our weather dashboard app.
- * These cities are used to determine the location of where you want to get the
- * information.  The idea is you are travelling to one of these cities
+ * This module allows you to add, delete, modify and list favorite places for 
+ * our places dashboard app.
+ * These places are used to determine the location of where you want to get the
+ * information.  The idea is you are travelling to one of these places
  * and you want to know the weather and things to do when you get there like
  * good places to eat, bands that are playing, hot spots etc.
  ********************************************************************************** */
@@ -75,23 +75,25 @@ function favoriteAdd(favoritePlace) {
 // Update item firebase DB
 function favoriteUpdate(key, favoritePlace) {
     // Add object to firebase to the database
-    let favoriteRef = favoritesDBRef.child(key);
+    let favoriteDBRef = favoritesDBRef.child(key);
 
-    favoriteRef.set(favoritePlace);
+    favoriteDBRef.set(favoritePlace);
 }
 
 // Delete from firebase DB
 function favoriteDelete(key) {
     // Delete object from firebase
-    let favoriteRef = favoritesDBRef.child(key);
-    favoriteRef.remove();
+    let favoriteDBRef = favoritesDBRef.child(key);
+    favoriteDBRef.remove();
 }
 
 // Get all favortie places in any order  
 function favoritesGet(aCallback) {
-    let favorites = [];
 
     favoritesDBRef.on("value", function (snap) {
+        let favorites = [];
+        favorites.length = 0;
+
         snap.forEach(child => {
             let favorite = child.val();
             favorite.key = child.key;
@@ -104,9 +106,11 @@ function favoritesGet(aCallback) {
 
 // get list of favorites places ordered by name
 function favoritesGetByName(aCallback) {
-    let favorites = [];
 
     favoritesDBRef.orderByChild("name").on("value", function (snap) {
+        let favorites = [];
+        favorites.length = 0;
+
         snap.forEach(child => {
             let favorite = child.val();
             favorite.key = child.key;
@@ -126,13 +130,6 @@ function favoritesGetByName(aCallback) {
  * to render the data on the pages.  Its a feeble attempt at MVC separation of responsibilites
  * ====================================================================================================
  */
-
-// change one items update mode 
-// when hitting 'edit' it goes into update mode
-// after hitting 'update' or 'cancel' it goes into non-update mode
-function arrayItemUpdateMode(index, favorites, editMode) {
-    favorites[index].editMode = editMode;
-}
 
 // remove a favorite from the array based on key
 function arrayItemRemove(favorites, index) {
@@ -160,166 +157,3 @@ function httpGet(requestURL, aCallback, errCallback) {
         }
     });
 }
-
-/*
- * HTML Controller (i.e. renderring functionality)
- * ====================================================================================================
- */
-
-// handle errors when retrieving from AJAX
-function errorRender(err) {
-    console.log(`Error: ${err.statusText}`);
-    alert(`Error: ${err.statusText}`);
-
-    $("#errorMessage").html(`${err.statusText}`);
-}
-
-// render the HTML from the the array into the table
-function favoritesRender(favorites) {
-
-    $("#favorites-table-data").empty();
-    let newRow;
-
-    for (let i in favorites) {
-        let favoritePlace = favorites[i];
-
-        if (favoritePlace.editMode) {
-            newRow = $(`<tr id="${favoritePlace.key}" data-key="${favoritePlace.key}" data-index="${i}">`).append(
-                $("<td>").html(`<input id="${favoritePlace.key}-name" type="text" value="${favoritePlace.name}"></input>`),
-                $("<td>").html(`<input id="${favoritePlace.key}-address" type="text" value="${favoritePlace.address}"></input>`),
-                $("<td>").html(`<input id="${favoritePlace.key}-city" type="text" value="${favoritePlace.city}"></input>`),
-                $("<td>").html(`<input id="${favoritePlace.key}-state" type="text" value="${favoritePlace.state}"></input>`),
-                $("<td>").html(`<input id="${favoritePlace.key}-zipCode" type="text" value="${favoritePlace.zipCode}"></input>`),
-                $("<td>").html(`<button class="delete" data-key="${favoritePlace.key}" data-index="${i}">Delete</button>`),
-                $("<td>").html(`<button class="update" data-key="${favoritePlace.key}" data-index="${i}">Update</button><button class="cancel" data-key="${favoritePlace.key}" data-index="${i}">Cancel</button>`)
-            );
-        } else {
-            newRow = $(`<tr id="${favoritePlace.key}" data-key="${favoritePlace.key}" data-index="${i}"">`).append(
-                $("<td>").text(`${favoritePlace.name}`),
-                $("<td>").text(`${favoritePlace.address}`),
-                $("<td>").text(`${favoritePlace.city}`),
-                $("<td>").text(`${favoritePlace.state}`),
-                $("<td>").text(`${favoritePlace.zipCode}`),
-                $("<td>").html(`<button class="delete" data-key="${favoritePlace.key}" data-index="${i}">Delete</button>`),
-                $("<td>").html(`<button class="edit" data-key="${favoritePlace.key}" data-index="${i}">Edit</button>`)
-            );
-        }
-        // Append the new row to the table
-        $("#favorites-table-data").append(newRow);
-    }
-}
-
-// Wait for doc to be ready
-$(document).ready(function () {
-
-    // Add a new favorite
-    $("#add-favorite-btn").on("click", function (event) {
-        event.preventDefault();
-
-        // Grab user input
-
-        // Validate user Input
-
-        let favoritePlace = {
-            name: $("#name").val().trim(),
-            address: $("#address").val().trim(),
-            city: $("#city").val().trim(),
-            state: $("#state").val().trim(),
-            zipCode: $("#zipCode").val(),
-        };
-
-        // Store It
-        favoriteAdd(favoritePlace);
-
-        // Clear text-boxes
-        $("#name").val("");
-        $("#address").val("");
-        $("#city").val("");
-        $("#state").val("");
-        $("#zipCode").val("");
-    });
-
-    // Select a row/favorite 
-    $(document.body).on("click", "#favorites-table-data tr", function () {
-        var index = $(this).attr("data-index");
-        var key = $(this).attr("data-key");
-
-        // get the one clicked from array in memory
-        let favoritePlace = arrayItemGet(index);
-        console.log(favoritePlace);
-
-        // Show the one clicked - get it from FB
-        favoriteGet(key, function (favoriteFB) {
-            console.log(favoriteFB);
-        });
-
-        // Show the weather, places, map for this favorite
-        // Go to the dashboard with the place selected
-
-    });
-
-    // Delete 
-    $(document.body).on("click", ".delete", function () {
-        var index = $(this).attr("data-index");
-        var key = $(this).attr("data-key");
-
-        // Delete  from firebase
-        favoriteDelete(key);
-
-        // Remove from the memory datastore array 
-        arrayItemRemove(favorites, index);
-
-        // re-render fav list
-        favoritesRender(favorites);
-    });
-
-    // Edit a row 
-    $(document.body).on("click", ".edit", function () {
-        var index = $(this).attr("data-index");
-        var key = $(this).attr("data-key");
-
-        arrayItemUpdateMode(index, favorites, true);
-        favoritesRender(favorites);
-    });
-
-    // Cancel editting a row 
-    $(document.body).on("click", ".cancel", function () {
-        var index = $(this).attr("data-index");
-        var key = $(this).attr("data-key");
-
-        arrayItemUpdateMode(index, favorites, false);
-        favoritesRender(favorites);
-    });
-
-    // Update 
-    $(document.body).on("click", ".update", function () {
-        var index = $(this).attr("data-index");
-        var key = $(this).attr("data-key");
-
-        let favoritePlace = {
-            name: $(`#${key}-name`).val().trim(),
-            address: $(`#${key}-address`).val().trim(),
-            city: $(`#${key}-city`).val().trim(),
-            state: $(`#${key}-state`).val().trim(),
-            zipCode: $(`#${key}-zipCode`).val(),
-        };
-        favoritePlace.key = key;
-        favorites[index] = favoritePlace;
-
-        // Update in firebase
-        favoriteUpdate(key, favoritePlace);
-
-        // change display to not editting
-        arrayItemUpdateMode(index, favorites, false);
-        favoritesRender(favorites);
-    });
-
-    // MAIN Start
-    // Populate this list of favorite places in the database
-    favoritesGet(function (favoritePlaces) {
-
-        // render fav list
-        favoritesRender(favoritePlaces);
-    });
-
-}); // (document).ready
