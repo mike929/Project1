@@ -38,14 +38,8 @@ Person 4: Setup firebase database to dynamically store data
 
 3. Primary Goal.  Location Dashboard and store favorite travel places.
 
-4. Essential User Stories
+4. Essential User Stories (see projet dashboards)
    * Create Dashboard HTML Wireframe
-     [ ] Figure out how many days of weather to display
-     [] Create Header or Jumbotron
-     * Create input design for selecting one of saved favorties
-     * Create link to switch to page to create a new favorite
-     * Mock up what weather data will look like
-     * Mocke up what places data will lok like on the page
    * Generate google places API for address, city or zip code
    * Decide whether we want a location map
    * Issue - how should we deal with API Keys - sharing but secure?

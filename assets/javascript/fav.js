@@ -17,10 +17,11 @@
 /*global firebase:false */
 
 // Firebase
+const PAUL_FB_APIKEY = "AIzaSyC1rPD9yqt2-9mk-T2WEwmFAc4uzYYr1UI";
 
 // Initialize Firebase
 var config = {
-    apiKey: PAUL_FBWEATHER_APIKEY,
+    apiKey: PAUL_FB_APIKEY,
     authDomain: "weatherdashboard-47786.firebaseapp.com",
     databaseURL: "https://weatherdashboard-47786.firebaseio.com",
     projectId: "weatherdashboard-47786",
