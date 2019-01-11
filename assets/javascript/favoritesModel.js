@@ -1,5 +1,5 @@
 /* **********************************************************************************
- * Favorite Cities - 
+ * Favorite Places - 
  * This module allows you to add, delete, modify and list favorite cities for 
  * our weather dashboard app.
  * These cities are used to determine the location of where you want to get the
@@ -32,18 +32,36 @@ firebase.initializeApp(config);
 // Create a variable to reference the database.
 let database = firebase.database();
 
-// Reference where all favorites  are stored
-let favoritesRef = database.ref("/favorite_cities");
+// Reference where all favorites  are stored in DB
+let favoritesDBRef = database.ref("/favorite_cities");
 let favorites = []; // array of objects for all the favorite cities
+// Template Object/Class for what a favorite place in tge array holds
+let ItemFavoritePlace = {
+    name: "",
+    address: "",
+    city: "",
+    state: "",
+    zipCode: "",
+    key: "", // database key for update, delete or getting new from DB
+    editMode: false // helper mode to tell whether user is editing this item
+};
+// Template Object/Class for what a favorite place in DB holds (i.e. snapshot.val())
+let DBFavoritePlace = {
+    name: "",
+    address: "",
+    city: "",
+    state: "",
+    zipCode: ""
+};
 
 /*
-* Model Functionlity - NO HTML Renderring belongs here - pure model
-* ====================================================================================================
-*/
+ * Model Functionlity - NO HTML Renderring belongs here - pure model
+ * ====================================================================================================
+ */
 
 // Get specific item by key from firebase DB
 function favoriteGet(key, aCallback) {
-    favoritesRef.child(key).once('value', function (snap) {
+    favoritesDBRef.child(key).once('value', function (snap) {
         aCallback(snap.val());
     });
 }
@@ -51,13 +69,13 @@ function favoriteGet(key, aCallback) {
 // Add to firebase DB
 function favoriteAdd(favoritePlace) {
     // Add object to firebase to the database
-    favoritesRef.push(favoritePlace);
+    favoritesDBRef.push(favoritePlace);
 }
 
 // Update item firebase DB
 function favoriteUpdate(key, favoritePlace) {
     // Add object to firebase to the database
-    let favoriteRef = favoritesRef.child(key);
+    let favoriteRef = favoritesDBRef.child(key);
 
     favoriteRef.set(favoritePlace);
 }
@@ -65,32 +83,49 @@ function favoriteUpdate(key, favoritePlace) {
 // Delete from firebase DB
 function favoriteDelete(key) {
     // Delete object from firebase
-    let favoriteRef = favoritesRef.child(key);
+    let favoriteRef = favoritesDBRef.child(key);
     favoriteRef.remove();
 }
 
-// get list of favorites places ordered by name
-function favoritesGetByName() {
+// Get all favortie places in any order  
+function favoritesGet(aCallback) {
     let favorites = [];
 
-    favoritesRef.orderByChild("name").on("value", function (snap) {
+    favoritesDBRef.on("value", function (snap) {
         snap.forEach(child => {
             let favorite = child.val();
             favorite.key = child.key;
 
             favorites.push(favorite);
         });
+        aCallback(favorites);
+    });
+}
+
+// get list of favorites places ordered by name
+function favoritesGetByName(aCallback) {
+    let favorites = [];
+
+    favoritesDBRef.orderByChild("name").on("value", function (snap) {
+        snap.forEach(child => {
+            let favorite = child.val();
+            favorite.key = child.key;
+            favorite.editMode = false; // Tells whether this should be renderred in edit mode
+
+            favorites.push(favorite);
+        });
+        aCallback(favorites);
     });
 }
 
 /*
-* In memory data managment 
-* These are the functions that manage the data stored in memory in the array
-* The database stores the persistent data.  The in memory array holds all that database data
-* plus other trasient and calculated data.  That in memory data is used by the view controller
-* to render the data on the pages.  Its a feeble attempt at MVC separation of responsibilites
-* ====================================================================================================
-*/
+ * In memory data managment 
+ * These are the functions that manage the data stored in memory in the array
+ * The database stores the persistent data.  The in memory array holds all that database data
+ * plus other trasient and calculated data.  That in memory data is used by the view controller
+ * to render the data on the pages.  Its a feeble attempt at MVC separation of responsibilites
+ * ====================================================================================================
+ */
 
 // change one items update mode 
 // when hitting 'edit' it goes into update mode
@@ -106,7 +141,7 @@ function arrayItemRemove(favorites, index) {
 
 // remove a favorite from the array based on key
 function arrayItemGet(favorites, index) {
-    return(favorites[index]);
+    return (favorites[index]);
 }
 
 // Helper functiion for AJAX calls
@@ -127,9 +162,9 @@ function httpGet(requestURL, aCallback, errCallback) {
 }
 
 /*
-* HTML Controller (i.e. renderring functionality)
-* ====================================================================================================
-*/
+ * HTML Controller (i.e. renderring functionality)
+ * ====================================================================================================
+ */
 
 // handle errors when retrieving from AJAX
 function errorRender(err) {
@@ -210,7 +245,7 @@ $(document).ready(function () {
         var key = $(this).attr("data-key");
 
         // get the one clicked from array in memory
-        let favoritePlace  = arrayItemGet(index);
+        let favoritePlace = arrayItemGet(index);
         console.log(favoritePlace);
 
         // Show the one clicked - get it from FB
@@ -236,7 +271,6 @@ $(document).ready(function () {
 
         // re-render fav list
         favoritesRender(favorites);
-
     });
 
     // Edit a row 
@@ -280,17 +314,12 @@ $(document).ready(function () {
         favoritesRender(favorites);
     });
 
-    // Each time a favorite is added to DB, add it to the list
-    favoritesRef.on("child_added", function (snap) {
-        let favoritePlace = snap.val();
-        favoritePlace.key = snap.key;
+    // MAIN Start
+    // Populate this list of favorite places in the database
+    favoritesGet(function (favoritePlaces) {
 
-        // Add to the memory datastore array 
-        favoritePlace.editMode = false; // Tells whether this should be renderred in edit mode
-        favorites.push(favoritePlace);
-
-        // re-render fav list
-        favoritesRender(favorites);
+        // render fav list
+        favoritesRender(favoritePlaces);
     });
 
 }); // (document).ready
