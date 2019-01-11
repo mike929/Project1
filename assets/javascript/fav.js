@@ -117,7 +117,6 @@ function favoriteGet(key, aCallback) {
     });
 }
 
-
 // Add to firebase DB
 function favoriteAdd(favoriteObj) {
     // Add object to firebase to the database
@@ -137,6 +136,20 @@ function favoriteDelete(key) {
     // Delete object from firebase
     let favoriteRef = favoritesRef.child(key);
     favoriteRef.remove();
+}
+
+// get list of cities ordered by name
+function favoritesGetByName() {
+    let favorites = [];
+
+    favoritesRef.orderByChild("name").on("value", function (snap) {
+        snap.forEach(child => {
+            let favorite = child.val();
+            favorite.key = child.key;
+
+            favorites.push(favorite);
+        });
+    });
 }
 
 // Wait for doc to be ready
