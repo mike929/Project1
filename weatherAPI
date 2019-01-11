@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>5-Day Forecast</title>
+</head>
+
+<body>
+
+  <!-- City Select Box -->
+  <form id="city-form">
+
+    <!-- Label for Text Box -->
+    <label for="city-input">Choose Your City</label>
+
+    <!-- Text Input Box -->
+    <input type="text" id="city-input"><br>
+
+    <!-- Submit Button -->
+    <input id="select-city" type="submit" value="GO!">
+  </form>
+
+  <!-- Weather Information -->
+  <div id="city-div"></div>
+
+</body>
+
+<script src="https://www.weatherbit.io/api/subscription-usage"></script>
+<script>
+  function searchWeatherInArea(city) {
+
+    // Querying the weather api for the selected city 
+    var queryURL = "https://api.weatherbit.io/v2.0/subscription/usage?key=39047f9e71a542f88fb3f336a3f1a480";
+    $.ajax({
+      url: queryURL,
+      method: "GET"
+    }).then(function(response) {
+
+      // Printing the entire object to console
+      console.log(response);
+
+      // Constructing HTML containing all the weather data 
+      var cityName = $("<h1>").text(response.name);
+      var weatherURL = $("<a>").attr("href", response.url).append(cityName);
+      var trackerCount = $("<h2>").text(response.tracker_count + " fans tracking this artist");
+
+      // Empty the contents of the artist-div, append the new artist content
+      $("#weather-div").empty();
+      $("#artist-div").append(weatherURL, cityName, trackerCount);
+    });
+  }
+
+  // Event handler for user clicking the select-artist button
+  $("#select-artist").on("click", function(event) {
+    // Preventing the button from trying to submit the form
+    event.preventDefault();
+    // Storing the artist name
+    var inputArtist = $("#artist-input").val().trim();
+
+    // Running the searchBandsInTown function(passing in the artist as an argument)
+    searchWeatherInArea(inputArtist);
+  });
+</script>
+
+</html>
