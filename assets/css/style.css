@@ -1,4 +1,4 @@
-html {
+/*html {
     /* font-size: 10px; */
     /* background: url(/assets/images/sky-29.jpg) bottom center;
     background-size: 100%;
@@ -7,7 +7,7 @@ html {
 
     /* background: url(http://i.imgur.com/b9r5sEL.jpg) bottom center; */
     /* background-size: cover; */
-  }
+  
   .jumbotron {
     background-color: transparent !important;
     font-family: 'Philosopher', sans-serif;
@@ -26,6 +26,11 @@ html {
   .h1 {
     font-size:5vw;
   }
+
+  /* .row3,
+  .row4 {
+    width: 50%;
+  } */
   
   .keys {
     display: flex;
