@@ -9,8 +9,8 @@ html {
     /* background-size: cover; */
   }
   .jumbotron {
-      background: rgb(200, 54, 54); /* This is for ie8 and below */
-      background: rgba(200, 54, 54, 0.5); 
+    background-color: transparent !important;
+    font-family: 'Philosopher', sans-serif;
    }
   
   
