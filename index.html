@@ -40,38 +40,38 @@
 
     <!-- Jumbotron -->
     <div class="jumbotron jumbotron-fluid" style="background: none; color: black">
-        <h1 class="text-center">Travlers Dashboard</h1>
+        <h1 class="text-center">Travelers Dashboard</h1>
         <h3 class="text-center">Find out the weather and what to eat in one place</h3>
     </div>
-
+    <!-- drop down row -->
     <div class="container search">
 
-            <nav class="navbar navbar-expand-sm bg-none navbar-dark justify-content-center">
-                    <form class="form-inline" action="/action_page.php">
-                      <div class="input-group">
-                        <div class="input-group-prepend">
-                                <button type="button" class="btn btn-secondary"><i class="fa fa-star"></i></button>
-                          <span class="input-group-text"><i class="fa fa-search" type="submit"></i></span>
+        <nav class="navbar navbar-expand-sm bg-none navbar-dark justify-content-center">
+            <form class="form-inline" action="/action_page.php">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <button type="button" class="btn btn-secondary"><i class="fa fa-star"></i></button>
+                        <span class="input-group-text"><i class="fa fa-search" type="submit"></i></span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Place of Interest">
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown">
+                            Places
+                        </button>
+                        <div class="dropdown-menu">
+                            <h5 class="dropdown-header">City List</h5>
+                            <a class="dropdown-item" href="#">Link 1</a>
+                            <a class="dropdown-item" href="#">Link 2</a>
+                            <a class="dropdown-item" href="#">Link 3</a>
+                            <h5 class="dropdown-header">Click below to add to Fav</h5>
+                            <a class="dropdown-item" href="#">Another link</a>
                         </div>
-                        <input type="text" class="form-control" placeholder="Place of Interest">
-                        <div class="dropdown">
-                                <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown">
-                                  Places
-                                </button>
-                                <div class="dropdown-menu">
-                                  <h5 class="dropdown-header">City List</h5>
-                                  <a class="dropdown-item" href="#">Link 1</a>
-                                  <a class="dropdown-item" href="#">Link 2</a>
-                                  <a class="dropdown-item" href="#">Link 3</a>
-                                  <h5 class="dropdown-header">Click below to add to Fav</h5>
-                                  <a class="dropdown-item" href="#">Another link</a>
-                                </div>
-                              </div>
-                            </div>
-                      </div> 
-                    </form>
-                  </nav>
-            <!-- <div class="btn-toolbar mb-3" role="toolbar" aria-label="Toolbar with button groups">
+                    </div>
+                </div>
+    </div>
+    </form>
+    </nav>
+    <!-- <div class="btn-toolbar mb-3" role="toolbar" aria-label="Toolbar with button groups">
                     <div class="btn-group mr-2" role="group" aria-label="First group">
                   
                       <button type="button" class="btn btn-secondary"><i class="fa fa-star"></i></button>
@@ -82,10 +82,10 @@
                       </div>
                       <input type="text" class="form-control" placeholder="City" aria-label="Input City" aria-describedby="btnGroupAddon">
                     </div> -->
-                  </div>
     </div>
-        <!-- <div class="row"> City: </div> -->
-        <div class="container">
+    </div>
+    <!-- Container for the rest of the site -->
+    <div class="container small boxes">
 
         <div class="row">
 
@@ -120,7 +120,8 @@
                         <kbd>Sunday</kbd>
                         <span class="sound">Sunny</span>
                     </div>
-                    <!-- <div data-key="75" class="key">
+                </div>
+                <!-- <div data-key="75" class="key">
                 <kbd>K</kbd>
                 <span class="sound">tom</span>
             </div>
@@ -128,21 +129,21 @@
                 <kbd>L</kbd>
                 <span class="sound">tink</span>
             </div> -->
-                </div>
-
-                <audio data-key="65" src="sounds/clap.wav"></audio>
-                <audio data-key="83" src="sounds/hihat.wav"></audio>
-                <audio data-key="68" src="sounds/kick.wav"></audio>
-                <audio data-key="70" src="sounds/openhat.wav"></audio>
-                <audio data-key="71" src="sounds/boom.wav"></audio>
-                <audio data-key="72" src="sounds/ride.wav"></audio>
-                <audio data-key="74" src="sounds/snare.wav"></audio>
-                <audio data-key="75" src="sounds/tom.wav"></audio>
-                <audio data-key="76" src="sounds/tink.wav"></audio>
             </div>
-        </div>
 
-        <div class="row">
+            <audio data-key="65" src="sounds/clap.wav"></audio>
+            <audio data-key="83" src="sounds/hihat.wav"></audio>
+            <audio data-key="68" src="sounds/kick.wav"></audio>
+            <audio data-key="70" src="sounds/openhat.wav"></audio>
+            <audio data-key="71" src="sounds/boom.wav"></audio>
+            <audio data-key="72" src="sounds/ride.wav"></audio>
+            <audio data-key="74" src="sounds/snare.wav"></audio>
+            <audio data-key="75" src="sounds/tom.wav"></audio>
+            <audio data-key="76" src="sounds/tink.wav"></audio>
+        </div>
+    </div>
+    <div class="container weather">
+        <div class="row2">
 
             <div class="col-md-12">
 
@@ -168,15 +169,32 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="row">
-            <div class="col-md-12">
+    <div class="container big cards">
+        <div class="card-deck">
+
+            <!-- <div class="row3"> -->
+            <div class="col-md-6">
                 <!-- Add City  -->
                 <div class="card mb-4">
-                    <div class="card-header">Add City</div>
+                    <div class="card-header text-center">Weather</div>
                     <div class="card-body">
 
-                        <!-- Entry Form -->
+                        <!-- maybe return data in a table, not sure if the flow works for this -->
+                        <!-- <table class="table bg-light table-hover">
+
+                                
+
+                        <tr id = "static-table-header">
+                            <th>Something1</th>
+                            <th>Something2</th>
+                            <th>Something3</th>
+                            <th>Something4</th>
+                            <th>Something5</th>
+                          </tr>
+                          </table> -->
+
                         <form>
                             <div class="form-group">
                                 <label for="employee-name-input">City</label>
@@ -198,10 +216,41 @@
                         </form>
 
                     </div>
+
                 </div>
             </div>
+        
+        <!-- <div class="row"> -->
+        <!-- <div class="col-md-6"> -->
+        <!-- Add City  -->
+        <div class="card mb-4">
+            <div class="card-header text-center">Places</div>
+            <div class="card-body">
+
+                <!-- Entry Form -->
+                <form>
+                    <div class="form-group">
+                        <label for="employee-name-input">City</label>
+                        <input class="form-control" id="employee-name-input" placeholder="City Name" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="role-input">Zip Code</label>
+                        <input class="form-control" id="role-input" placeholder="zipcode" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="start-input">City ID</label>
+                        <input class="form-control" id="start-input" placeholder="City ID" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="rate-input">Country</label>
+                        <input class="form-control" id="rate-input" placeholder="Country" type="text">
+                    </div>
+                    <button class="btn btn-success float-right" id="add-employee-btn">Submit</button>
+                </form>
+            </div>
         </div>
-        </div>
+    </div>
+    </div>
     </div>
     <script src="../Project1/assets/javascript/app.js"></script>
 </body>
