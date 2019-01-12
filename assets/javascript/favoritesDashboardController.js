@@ -21,7 +21,7 @@ function favoritesDropdwnRender(favorites) {
         //    <option value='5'>Option5</option>
         // </select>
 
-        newRow = $(`<li class="dropdown-item" id="${favoritePlace.key}" data-key="${favoritePlace.key}" data-index="${i}">${favoritePlace.name}</li>`)
+        newRow = $(`<li class="dropdown-item" id="${favoritePlace.key}" data-key="${favoritePlace.key}" data-index="${i}">${favoritePlace.name}</li>`);
 
         // Append the new row to the table
         $("#favorites-dropdown").append(newRow);
@@ -39,15 +39,23 @@ $(document).ready(function () {
         // Show the one clicked - get it from FB
         favoriteGet(key, function (favoriteFB) {
             console.log(favoriteFB);
-            
+
             // render the name in the text field so you know
             $("#dataPull").val(favoriteFB.name);
 
-            // Call weatherAPI with favoriteFB
-            // getWeather(favoriteFB);
+            // get lat long from Justins API
+            // hardcode for now
+            let geoLocation = {};
+            geoLocation.lat = 33.787549;
+            geoLocation.long =  -84.314085;
+            
+            // geoLocation = getLatLong(favoriteFB.city);
+
+            // Call weatherAPI with lat long
+            getWeather(geoLocation.lat, geoLocation.long);
 
             // Call places api
-            // getPlaceInfo(placeObject);
+            // getPlaceInfo(favoriteFB);
 
         });
     });
