@@ -7,6 +7,12 @@ function playSound(e) {
     key.classList.add('playing');
 
   }
+
+  var card = document.querySelector('.cardR');
+card.addEventListener( 'click', function() {
+  card.classList.toggle('is-flipped');
+  console.log('is-flipped');
+});
 // TURNING THIS BLOCK OF CODE INTO A FUNCTION - playSound
   // window.addEventListener('keydown', function (e) {
   //   // console.log(e.keyCode); to see the keycodes of keys
