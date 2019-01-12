@@ -13,7 +13,16 @@ function favoritesDropdwnRender(favorites) {
     for (let i in favorites) {
         let favoritePlace = favorites[i];
 
-        newRow = $(`<a class="dropdown-item" id="${favoritePlace.key}" data-key="${favoritePlace.key}" data-index="${i}" href="#">${favoritePlace.name}</a>`);
+        //         <select>
+        //    <option value='1'>Option1</option>
+        //    <option value='2'>Option2</option>
+        //    <option value='3'>Option3</option>
+        //    <option value='4'>Option4</option>
+        //    <option value='5'>Option5</option>
+        // </select>
+
+        newRow = $(`<li class="dropdown-item" id="${favoritePlace.key}" data-key="${favoritePlace.key}" data-index="${i}">${favoritePlace.name}</li>`)
+
         // Append the new row to the table
         $("#favorites-dropdown").append(newRow);
     }
@@ -23,24 +32,21 @@ function favoritesDropdwnRender(favorites) {
 $(document).ready(function () {
 
     // Select a row/favorite 
-    $(document.body).on("click", "#favorites-dropdown", function () {
-        var index = $(this).attr("data-index");
-        var key = $(this).attr("data-key");
+    $(document.body).on("click", "#favorites-dropdown li", function () {
 
-        // get the one clicked from array in memory
-        let favoritePlace = arrayItemGet(index);
-        console.log(favoritePlace);
+        var key = $(this).attr("data-key");
 
         // Show the one clicked - get it from FB
         favoriteGet(key, function (favoriteFB) {
             console.log(favoriteFB);
+            // Call weatherAPI with favoriteFB
+            // getWeather(favoriteFB);
+
+            // Call places api
+            // getPlaceInfo(placeObject);
+
         });
-
-        // Show the weather, places, map for this favorite
-        // Go to the dashboard with the place selected
-
     });
-
 
     // MAIN Start
     // Populate this list of favorite places in the database
