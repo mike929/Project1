@@ -39,6 +39,10 @@ $(document).ready(function () {
         // Show the one clicked - get it from FB
         favoriteGet(key, function (favoriteFB) {
             console.log(favoriteFB);
+            
+            // render the name in the text field so you know
+            $("#dataPull").val(favoriteFB.name);
+
             // Call weatherAPI with favoriteFB
             // getWeather(favoriteFB);
 
@@ -52,7 +56,6 @@ $(document).ready(function () {
     // Populate this list of favorite places in the database
     favoritesGetByName(function (favs) {
         favoritePlaces = favs; // copy the array into the global var for this context
-
         // render fav list
         favoritesDropdwnRender(favoritePlaces);
     });
