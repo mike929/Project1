@@ -47,6 +47,7 @@
         <h1 class="text-center">Travelers Dashboard</h1>
         <h3 class="text-center">Find out the weather and what to eat in one place</h3>
     </div>
+
     <!-- drop down row -->
     <div class="container search">
 
@@ -54,26 +55,31 @@
             <form class="form-inline" action="/action_page.php">
                 <div class="input-group">
                     <div class="input-group-prepend">
-                        <button type="button" id="btn btn-secondary add-favorite-btn"><i class="fa fa-star"></i></button>
-                        <span class="input-group-text"><i class="fa fa-search" type="submit"></i></span>
+                        <a href="favoritePlaces.html">
+                        <button type="button" id="btn btn-secondary add-favorite-btn"><i class="fa fa-star"></i></button></a>
+                        <!-- <span class="input-group-text"><i class="fa fa-search" type="submit"></i></span> -->
                     </div>
-                    <input type="text" class="form-control" placeholder="Place of Interest">
+
+                    <!-- <input type="text" class="form-control" placeholder="Place of Interest"> -->
+
+                    <input type="text" id="dataPull" placeholder="filled from dropdown">
+
                     <div class="dropdown">
-                        <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown">
+                        <button type="button" class="btn btn-sm btn-dark dropdown-toggle" data-toggle="dropdown">
                             Places
                         </button>
-                        <div class="dropdown-menu" id="favorites-dropdown">
+                        <ul class="dropdown-menu" id="favorites-dropdown">
                             <h5 class="dropdown-header">City List</h5>
                             <a class="dropdown-item" href="#">Link 1</a>
                             <a class="dropdown-item" href="#">Link 2</a>
                             <a class="dropdown-item" href="#">Link 3</a>
                             <h5 class="dropdown-header">Click below to see faviorite places</h5>
                             <a class="dropdown-item" href="favoritePlaces.html">Favorites</a>
-                        </div>
+                        </ul>
                     </div>
                 </div>
+            </form>
     </div>
-    </form>
     </nav>
     <!-- <div class="btn-toolbar mb-3" role="toolbar" aria-label="Toolbar with button groups">
                     <div class="btn-group mr-2" role="group" aria-label="First group">
@@ -228,7 +234,7 @@
             <!-- <div class="col-md-6"> -->
             <!-- Add City  -->
 
-                <div class="card cardR scene cardR__face--front mb-4">
+            <div class="card cardR scene cardR__face--front mb-4">
                 <div class="card cardR scene cardR__face--back mb-4">
 
                     <div class="card-header text-center">Places FRONT</div>
@@ -245,14 +251,18 @@
                         </table>
                     </div>
                 </div>
-                </div>
+            </div>
         </div>
 
 
         <!-- </div>
     </div> -->
-    <script src="assets/javascript/app.js"></script>
-    <script src="assets/javascript/favoritesDashboardController.js"></script>
+        <script src="assets/javascript/app.js"></script>
+        <script src="assets/javascript/zomatoAPIv2.js"></script>
+    
+        <!-- leave controller script at bottom of links -->
+        <script src="assets/javascript/favoritesDashboardController.js"></script>
+        
 </body>
 
 </html>
