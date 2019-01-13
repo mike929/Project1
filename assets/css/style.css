@@ -85,16 +85,10 @@
     color: yellow;
   }
   
-  
-  #employee-table th,
-  td {
-    display: inline-block;
-    width: 16.575%;
-  }
-
   #dataPull {
     background: yellow;
   }
+
 
 /*--------Card Rotation ------*/
 
