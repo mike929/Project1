@@ -32,7 +32,7 @@ function favoritesRender(favorites) {
                 $("<td>").html(`<button class="update" data-key="${favoritePlace.key}" data-index="${i}">Update</button><button class="cancel" data-key="${favoritePlace.key}" data-index="${i}">Cancel</button>`)
             );
         } else {
-            newRow = $(`<tr id="${favoritePlace.key}" data-key="${favoritePlace.key}" data-index="${i}"">`).append(
+            newRow = $(`<tr id="${favoritePlace.key}" data-key="${favoritePlace.key}" data-index="${i}">`).append(
                 $("<td>").text(`${favoritePlace.name}`),
                 $("<td>").text(`${favoritePlace.address}`),
                 $("<td>").text(`${favoritePlace.city}`),
