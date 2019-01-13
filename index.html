@@ -56,7 +56,7 @@
                 <div class="input-group">
                     <div class="input-group-prepend">
                         <a href="favoritePlaces.html">
-                        <button type="button" id="btn btn-secondary add-favorite-btn"><i class="fa fa-star"></i></button></a>
+                            <button type="button" id="btn btn-secondary add-favorite-btn"><i class="fa fa-star"></i></button></a>
                         <!-- <span class="input-group-text"><i class="fa fa-search" type="submit"></i></span> -->
                     </div>
 
@@ -104,7 +104,12 @@
                 <div class="keys">
                     <div data-key="65" class="key">
                         <kbd>Monday</kbd>
-                        <span class="sound">Sunny</span>
+                        <span class="value"></span>
+                        <span id="switch" class="switch"></span>
+                        <canvas width="54px" height="54px" id="icon"></canvas>
+                        <span class="sound" class="temperature"></span>
+
+                        
                     </div>
                     <div data-key="83" class="key">
                         <kbd>Tuesday</kbd>
@@ -182,17 +187,19 @@
     </div>
 
     <div class="container big cards">
-        <div class="card-deck">
+        <div class="parent">
+            <div class="card-deck">
 
-            <!-- <div class="row3"> -->
-            <div class="col-md-6">
-                <!-- Add City  -->
-                <div class="card mb-4">
-                    <div class="card-header text-center">Weather</div>
-                    <div class="card-body">
+                <!-- <div class="row3"> -->
+                <div class="col-md-6">
+                    <!-- Add City  -->
+                    <div class="card mb-4">
+                        <div class="card-header text-center">Weather</div>
+                        <button id="select-city">GET WEATHER</button>
+                        <div class="card-body" id="weatherData">
 
-                        <!-- maybe return data in a table, not sure if the flow works for this -->
-                        <!-- <table class="table bg-light table-hover">
+                            <!-- maybe return data in a table, not sure if the flow works for this -->
+                            <!-- <table class="table bg-light table-hover">
 
                                 
 
@@ -205,64 +212,91 @@
                           </tr>
                           </table> -->
 
-                        <form>
-                            <div class="form-group">
-                                <label for="employee-name-input">City</label>
-                                <input class="form-control" id="employee-name-input" placeholder="City Name" type="text">
-                            </div>
-                            <div class="form-group">
-                                <label for="role-input">Zip Code</label>
-                                <input class="form-control" id="role-input" placeholder="zipcode" type="text">
-                            </div>
-                            <div class="form-group">
-                                <label for="start-input">City ID</label>
-                                <input class="form-control" id="start-input" placeholder="City ID" type="text">
-                            </div>
-                            <div class="form-group">
-                                <label for="rate-input">Country</label>
-                                <input class="form-control" id="rate-input" placeholder="Country" type="text">
-                            </div>
-                            <button class="btn btn-success float-right" id="add-employee-btn">Submit</button>
-                        </form>
+                            <form>
+                                <div class="form-group">
+                                    <label for="employee-name-input">City</label>
+                                    <input class="form-control" id="employee-name-input" placeholder="City Name" type="text">
+                                </div>
+                                <div class="form-group">
+                                    <label for="role-input">Zip Code</label>
+                                    <input class="form-control" id="role-input" placeholder="zipcode" type="text">
+                                </div>
+                                <div class="form-group">
+                                    <label for="start-input">City ID</label>
+                                    <input class="form-control" id="start-input" placeholder="City ID" type="text">
+                                </div>
+                                <div class="form-group">
+                                    <label for="rate-input">Country</label>
+                                    <input class="form-control" id="rate-input" placeholder="Country" type="text">
+                                </div>
+                                <button class="btn btn-success float-right" id="add-employee-btn">Submit</button>
+                            </form>
+
+                        </div>
 
                     </div>
-
                 </div>
-            </div>
 
-            <!-- <div class="row"> -->
-            <!-- <div class="col-md-6"> -->
-            <!-- Add City  -->
+                <!-- <div class="row"> -->
+                <!-- <div class="col-md-6"> -->
+                <!-- Add City  -->
 
-            <div class="card cardR scene cardR__face--front mb-4">
-                <div class="card cardR scene cardR__face--back mb-4">
+                <div class="card cardR scene cardR__face--front mb-4">
+                    <!-- <div class="card cardR scene cardR__face--back mb-4"> -->
+                    <div class="front">
+                        <div class="card-header text-center">Places FRONT</div>
+                        <div class="card-body">
 
-                    <div class="card-header text-center">Places FRONT</div>
-                    <div class="card-body">
+                            <!-- Places -->
+                            <tr id="static-table-header">
+                                <th>Something1</th>
+                                <th>Something2</th>
+                                <th>Something3</th>
+                                <th>Something4</th>
+                                <th>Something5</th>
+                            </tr>
+                            </table>
+                            <div class="back">
+                                <div class="card cardR scene cardR__face--back mb-4">BACKSIDE</div>
+                                <p>Something on the BACKSIDE</p>
 
-                        <!-- Places -->
-                        <tr id="static-table-header">
-                            <th>Something1</th>
-                            <th>Something2</th>
-                            <th>Something3</th>
-                            <th>Something4</th>
-                            <th>Something5</th>
-                        </tr>
-                        </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- used to test animated gif for weather boxes -->
+
+    <!-- <div class="container_bottom">
+            <div class="summary">
+            </div>
+          
+            <figure class="icons">
+            <canvas width="94px" height="94px" id="icon"></canvas>
+            </figure>
+          
+            <div class="temperature">
+                <span class="value"></span>
+               <span id="switch" class="switch"></span>
+            </div>
+          </div> -->
 
 
-        <!-- </div>
+    <!-- </div>
     </div> -->
-        <script src="assets/javascript/app.js"></script>
-        <script src="assets/javascript/zomatoAPIv2.js"></script>
-    
-        <!-- leave controller script at bottom of links -->
-        <script src="assets/javascript/favoritesDashboardController.js"></script>
-        
+    <script src="assets/javascript/app.js"></script>
+    <script src="assets/javascript/zomatoAPIv2.js"></script>
+    <script src="assets/javascript/weatherAPI.js"></script>
+    <script src="assets/javascript/weatherAPIicons.js"></script>
+    <script src="assets/javascript/skycons.js"></script>
+
+
+    <!-- leave controller script at bottom of links -->
+    <script src="assets/javascript/favoritesDashboardController.js"></script>
+
 </body>
 
 </html>

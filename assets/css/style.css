@@ -55,7 +55,7 @@
   }
   
   .key:hover {
-    transform: scale(1.5);
+    transform: scale(1.1);
     border-color: #ffc600;
     box-shadow: 0 0 1rem #ffc600;
   }
@@ -71,6 +71,20 @@
     letter-spacing: .1rem;
     color: #ffc600;
   }
+
+  .container_button {
+    display: flex;
+    height: 84vh;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .switch {
+    cursor: pointer;
+    color: yellow;
+  }
+  
   
   #employee-table th,
   td {
@@ -82,6 +96,7 @@
     background: yellow;
   }
 
+/*--------Card Rotation ------*/
 
   .scene {
     /* width: 200px;
@@ -103,6 +118,31 @@
   }
   
   .cardR__face {
+    position: absolute;
+    /* width: 100%;
+    height: 100%; */
+    /* line-height: 260px; */
+    /* color: black;
+    text-align: center;
+    font-weight: bold;
+    font-size: 40px; */
+    backface-visibility: hidden;
+  }
+
+    .cardR {
+    /* width: 100%;
+    height: 100%; */
+    transition: transform .8s;
+    transform-style: preserve-3d;
+    cursor: pointer;
+    position: relative;
+  }
+  
+  .cardR.is-flipped {
+    transform: rotateY(180deg);
+  }
+  
+  .cardR__face--backface--front {
     position: absolute;
     /* width: 100%;
     height: 100%; */
