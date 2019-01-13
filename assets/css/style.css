@@ -55,7 +55,7 @@
   }
   
   .key:hover {
-    transform: scale(1.5);
+    transform: scale(1.1);
     border-color: #ffc600;
     box-shadow: 0 0 1rem #ffc600;
   }
@@ -71,6 +71,20 @@
     letter-spacing: .1rem;
     color: #ffc600;
   }
+
+  .container_button {
+    display: flex;
+    height: 84vh;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .switch {
+    cursor: pointer;
+    color: yellow;
+  }
+  
   
   #employee-table th,
   td {
@@ -128,7 +142,7 @@
     transform: rotateY(180deg);
   }
   
-  .cardR__face {
+  .cardR__face--backface--front {
     position: absolute;
     /* width: 100%;
     height: 100%; */
