@@ -41,7 +41,6 @@ function locationInfoCall(callback){
             lat: lat,
             long: long
         }
-        console.log(parameters)
         callback();
     });
 
@@ -69,13 +68,11 @@ function getLatLong(city) {
 
 }
 function foodInfoCall() {
-    console.log("Tis: " + entityId + "from foodInfoCall function")
   var queryURL2 = "https://developers.zomato.com/api/v2.1/location_details?entity_id=" + entityId + "&entity_type=" + entityType + "&apikey=" + apiKey
   $.ajax({
     url: queryURL2,
     method: "GET"
   }).then(function(zomatoResponse2) {
-      console.log(zomatoResponse2)
   });
 };//end foodInfoCall function
 
@@ -84,7 +81,7 @@ locationInfoCall(foodInfoCall);
 
 
 
-
+ 
 
 
 
