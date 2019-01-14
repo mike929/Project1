@@ -85,23 +85,17 @@
     color: yellow;
   }
   
-  
-  #employee-table th,
-  td {
-    display: inline-block;
-    width: 16.575%;
-  }
-
   #dataPull {
     background: yellow;
   }
+
 
 /*--------Card Rotation ------*/
 
   .scene {
     /* width: 200px;
     height: 260px; */
-    perspective: 800px;
+    perspective: 1000px;
   }
 
   .cardR {
@@ -118,7 +112,7 @@
   }
   
   .cardR__face {
-    position: absolute;
+    /* position: absolute; */
     /* width: 100%;
     height: 100%; */
     /* line-height: 260px; */
@@ -126,13 +120,15 @@
     text-align: center;
     font-weight: bold;
     font-size: 40px; */
-    backface-visibility: hidden;
+    /* backface-visibility: hidden;
+    -webkit-backface-visibility: hidden */
+
   }
 
     .cardR {
     /* width: 100%;
     height: 100%; */
-    transition: transform .8s;
+    transition: transform .8s ease-in-out 0s;
     transform-style: preserve-3d;
     cursor: pointer;
     position: relative;
@@ -140,6 +136,15 @@
   
   .cardR.is-flipped {
     transform: rotateY(180deg);
+
+  }
+
+  .front, .back {
+    backface-visibility: hidden;
+  
+    /* position: absolute; */
+    /* top: 0;
+    left: 0; */
   }
   
   .cardR__face--backface--front {
@@ -151,7 +156,8 @@
     text-align: center;
     font-weight: bold;
     font-size: 40px; */
-    backface-visibility: hidden;
+    /* backface-visibility: hidden;
+    -webkit-backface-visibility: hidden */
   }
   
   .cardR__face--front {
