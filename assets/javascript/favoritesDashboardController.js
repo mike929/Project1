@@ -9,29 +9,26 @@ let favoritePlaces = []; // array of objects for all the favorite cities
  * ====================================================================================================
  */
 function weatherWeeklyRender() {
+    let keys = [1, 2, 3, 4, 5, 6, 7];
+    let days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    let temps = [65, 66, 62, 59, 78, 85, 45];
+    let moods = ["Cloudy", "Rain", "Sunny", "Partly Sunny", "Partly Cloudy", "Sunny","Snow Flurries"];
+
     $(`#weatherDataWeek`).empty();
     let newDay;
 
     // need to get todays date from moments
-    newDay = $(`<div data-key="65" data-day="Monday" class="key weatherDay">`).append(
-        $(`<kbd>`).text("Monday"),
-        $(`<div class="sound" class="temperature">65</div>`),
-        $(`<span>`).attr("class", "value"),
-        $(`<span>`).attr("id", "switch"),
-        $(`<canvas width="54px" height="54px" id="icon"></canvas>`),
-        $(`<div class="sound" class="mood">Snow</div>`)
-    );
-    $(`#weatherDataWeek`).append(newDay);
-    newDay = $(`<div data-key="66" data-day="Tuesday" class="key weatherDay">`).append(
-        $(`<kbd>`).text("Tuesday"),
-        $(`<div class="sound" class="temperature">66</div>`),
-        $(`<span>`).attr("class", "value"),
-        $(`<span>`).attr("id", "switch"),
-        $(`<canvas width="54px" height="54px" id="icon"></canvas>`),
-        $(`<div class="sound" class="mood">Snow</div>`)
-    );
-    $(`#weatherDataWeek`).append(newDay);
-
+    for (let day in days) {
+        newDay = $(`<div data-key="${keys[day]}" data-day="${days[day]}" data-temp="${temps[day]}" data-mood="${moods[day]}" class="key weatherDay">`).append(
+            $(`<kbd>`).text(days[day]),
+            $(`<div class="sound" class="temperature">${temps[day]}</div>`),
+            $(`<span>`).attr("class", "value"),
+            $(`<span>`).attr("id", "switch"),
+            $(`<canvas width="54px" height="54px" id="icon"></canvas>`),
+            $(`<div class="sound" class="mood">${moods[day]}</div>`)
+        );
+        $(`#weatherDataWeek`).append(newDay);
+    }
 }
 
 function selectedDaysWeatherRender(dayWeatherObject) {
@@ -114,18 +111,20 @@ $(document).ready(function () {
 
         var key = $(this).attr("data-key");
         var day = $(this).attr("data-day");
+        var temp = $(this).attr("data-temp");
+        var mood = $(this).attr("data-mood");
 
         let selectedDayWeather = {};
+        selectedDayWeather.key = key;
         selectedDayWeather.day = day;
-        selectedDayWeather.currentTemp = 65.5;
+        selectedDayWeather.currentTemp = temp;
         selectedDayWeather.lowTemp = 32;
         selectedDayWeather.highTemp = 71;
         selectedDayWeather.humidity = "35%";
         selectedDayWeather.wind = "8mph";
-        selectedDayWeather.clouds = "Partly Cloudy";
+        selectedDayWeather.clouds = mood;
 
         selectedDaysWeatherRender(selectedDayWeather);
-
     });
 
 
