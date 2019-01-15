@@ -23,6 +23,7 @@ function favoritesRender(favorites) {
 
         if (favoritePlace.editMode) {
             newRow = $(`<tr id="${favoritePlace.key}" data-key="${favoritePlace.key}" data-index="${i}">`).append(
+                $("<td>").html(`<button class="choose-favorite" data-key="${favoritePlace.key}" data-index="${i}">Choose</button>`),
                 $("<td>").html(`<input id="${favoritePlace.key}-name" type="text" value="${favoritePlace.name}"></input>`),
                 $("<td>").html(`<input id="${favoritePlace.key}-address" type="text" value="${favoritePlace.address}"></input>`),
                 $("<td>").html(`<input id="${favoritePlace.key}-city" type="text" value="${favoritePlace.city}"></input>`),
@@ -33,6 +34,7 @@ function favoritesRender(favorites) {
             );
         } else {
             newRow = $(`<tr id="${favoritePlace.key}" data-key="${favoritePlace.key}" data-index="${i}">`).append(
+                $("<td>").html(`<button class="choose-favorite" data-key="${favoritePlace.key}" data-index="${i}">Choose</button>`),
                 $("<td>").text(`${favoritePlace.name}`),
                 $("<td>").text(`${favoritePlace.address}`),
                 $("<td>").text(`${favoritePlace.city}`),
@@ -53,11 +55,9 @@ $(document).ready(function () {
     // Add a new favorite
     $("#add-favorite-btn").on("click", function (event) {
         event.preventDefault();
-
-        // Grab user input
-
         // Validate user Input
 
+        // Grab user input
         let favoritePlace = {
             name: $("#name").val().trim(),
             address: $("#address").val().trim(),
@@ -77,11 +77,22 @@ $(document).ready(function () {
         $("#zipCode").val("");
     });
 
+    // Close and go back to favorites page
+    $(document.body).on("click", ".button-close-page", function () {
+        // switch page to dashboard
+        window.location.href = "index.html";
+    });
+
     // Select a row/favorite 
-    $(document.body).on("click", "#favorites-table-data tr", function () {
+    $(document.body).on("click", ".choose-favorite", function () {
         var index = $(this).attr("data-index");
         var key = $(this).attr("data-key");
 
+        // Save the key to local storage for use on home page to pass back to dashboard
+        saveKeyToLocalStorage(key);
+
+        // * The following lines ar e just for testing
+        // * ==============================================
         // get the one clicked from array in memory
         let favoritePlace = arrayItemGet(index);
         console.log(favoritePlace);
@@ -93,6 +104,12 @@ $(document).ready(function () {
 
         // Show the weather, places, map for this favorite
         // Go to the dashboard with the place selected
+
+        // * END TEST CODE - this is where real app code starts 
+        // * ==============================================
+
+        // switch page to dashboard
+        window.location.href = "index.html";
 
     });
 
@@ -154,7 +171,7 @@ $(document).ready(function () {
     // MAIN Start
     // Populate this list of favorite places in the database
     favoritesGet(function (favs) {
-        favoritePlaces = favs;          // copy the array into the global var for this context
+        favoritePlaces = favs; // copy the array into the global var for this context
 
         // render fav list
         favoritesRender(favoritePlaces);

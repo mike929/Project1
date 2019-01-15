@@ -28,6 +28,33 @@ function favoritesDropdwnRender(favorites) {
     }
 }
 
+function currentFavoriteHandler(key) {
+    favoriteGet(key, function (favoriteFB) {
+        console.log(favoriteFB);
+
+        // do not try to do anything if it wasnt found
+        if (favoriteFB.name != undefined) {
+            // render the name in the text field so you know
+            $("#dataPull").val(favoriteFB.name);
+
+            // get lat long from Justins API
+            // hardcode for now
+            let geoLocation = {};
+            geoLocation.lat = 33.787549;
+            geoLocation.long = -84.314085;
+
+            // geoLocation = getLatLong(favoriteFB.city);
+
+            // Call weatherAPI with lat long
+            getWeather(geoLocation.lat, geoLocation.long);
+
+            // Call places api
+            // getPlaceInfo(favoriteFB);
+        }
+
+    });
+}
+
 // Wait for doc to be ready
 $(document).ready(function () {
 
@@ -36,28 +63,12 @@ $(document).ready(function () {
 
         var key = $(this).attr("data-key");
 
-        // Show the one clicked - get it from FB
-        favoriteGet(key, function (favoriteFB) {
-            console.log(favoriteFB);
+        // save it for next time
+        saveKeyToLocalStorage(key);
 
-            // render the name in the text field so you know
-            $("#dataPull").val(favoriteFB.name);
+        // run the function that calls the DB and handles the result
+        currentFavoriteHandler(key);
 
-            // get lat long from Justins API
-            // hardcode for now
-            let geoLocation = {};
-            geoLocation.lat = 33.787549;
-            geoLocation.long =  -84.314085;
-            
-            // geoLocation = getLatLong(favoriteFB.city);
-
-            // Call weatherAPI with lat long
-            getWeather(geoLocation.lat, geoLocation.long);
-
-            // Call places api
-            // getPlaceInfo(favoriteFB);
-
-        });
     });
 
     // MAIN Start
@@ -66,6 +77,18 @@ $(document).ready(function () {
         favoritePlaces = favs; // copy the array into the global var for this context
         // render fav list
         favoritesDropdwnRender(favoritePlaces);
+
+        // check to see if there is a value in local storage
+        key = getKeyFromLocalStorage();
+
+        if (key != undefined) {
+            currentFavoriteHandler(key);
+        } else {
+            // if there are any favorites, populate the first on
+            if (favoritePlaces.length > 0) {
+                currentFavoriteHandler(favoritePlaces[0].key);
+            }
+        }
     });
 
 }); // (document).ready

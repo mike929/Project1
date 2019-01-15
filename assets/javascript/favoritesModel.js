@@ -123,13 +123,23 @@ function favoritesGetByName(aCallback) {
 }
 
 /*
- * In memory data managment 
- * These are the functions that manage the data stored in memory in the array
- * The database stores the persistent data.  The in memory array holds all that database data
- * plus other trasient and calculated data.  That in memory data is used by the view controller
- * to render the data on the pages.  Its a feeble attempt at MVC separation of responsibilites
+ * Local Storage Management
+ * These are used to store and retrieve things from local storage
+ * The main thing this is used for is to pass data from the pages within out application
  * ====================================================================================================
  */
+
+// save last one for later retrieval
+function saveKeyToLocalStorage(key) {
+    localStorage.setItem("favoriteKey", key);
+}
+
+// get whatever is in local storage for later retrieval
+function getKeyFromLocalStorage() {
+    return localStorage.getItem("favoriteKey");
+}
+
+
 
 // remove a favorite from the array based on key
 function arrayItemRemove(favorites, index) {
