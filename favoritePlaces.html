@@ -39,75 +39,86 @@
 
 <body>
     <!-- Jumbotron -->
-    <div class="jumbotron jumbotron-fluid" style="background: none; color: black">
+    <!-- <div class="jumbotron jumbotron-fluid" style="background: none; color: black">
         <h1 class="text-center">Update Favorite Travel Desintations</h1>
         <h3 class="text-center">Save your favorites here</h3>
-    </div>
+    </div> -->
 
     <!-- Main Section -->
-    <div class="container-fluid">
-        <div class="col-md-12">
-            <!-- Favorites -->
+    <main class="container p-5">
+        <div class="container-fluid">
             <div class="card">
-                <div class="card-header font-italic text-info">
-                    Current Favorites - Click anywhere on a row to select that favorite and go to dashboard>
+                <div class="card-header font-weight-bold text-uppercase">
+                    Favorites Update<small class="float-right">
+                        <button type="button" class="button-close-page close" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </small>
                 </div>
-                <div class="card-body">
-                    <div class="container-fluid">
-                        <table class="table table-responsive table-hover table-striped w-auto" id='favorites-table'>
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Address</th>
-                                    <th>City</th>
-                                    <th>State</th>
-                                    <th>Zip Code</th>
-                                    <th>Delete</th>
-                                    <th>Edit</th>
-                                </tr>
-                            </thead>
-                            <tbody id="favorites-table-data">
-                            </tbody>
-                        </table>
+
+                <!-- Favorites -->
+                <div class="card m-2">
+                    <div class="card-header font-italic text-info">
+                        Current Favorites - (select 'choose' if you wish to go to dashboard passing that favorite)
+                    </div>
+                    <div class="card-body">
+                        <div class="container-fluid">
+                            <table class="table table-responsive table-hover table-striped w-auto" id='favorites-table'>
+                                <thead>
+                                    <tr>
+                                        <th>Choose</th>
+                                        <th>Name</th>
+                                        <th>Address</th>
+                                        <th>City</th>
+                                        <th>State</th>
+                                        <th>Zip Code</th>
+                                        <th>Delete</th>
+                                        <th>Edit</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="favorites-table-data">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- </div> -->
+                <div class="card m-2">
+                    <div class="card-header">
+                        Add Favorite
+                    </div>
+                    <div class="card-body">
+                        <!-- Entry Form -->
+                        <form class="form-input">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input id="name" placeholder="Hilton Back Bay" type="text">
+                            </div>
+                            <div class="form-group">
+                                <label for="address">Address</label>
+                                <input id="address" placeholder="40 Dalton St" type="text">
+                            </div>
+                            <div class="form-group">
+                                <label for="city">City</label>
+                                <input id="city" placeholder="Boston" type="text">
+                            </div>
+                            <div class="form-group">
+                                <label for="state">State</label>
+                                <input id="state" placeholder="MA" type="text">
+                            </div>
+                            <div class="form-group">
+                                <label for="zipCode">Zip Code</label>
+                                <input id="zipCode" placeholder="02115" type="text">
+                            </div>
+                            <button class="submit btn btn-primary float-left mx-4" id="add-favorite-btn" value="Submit">Submit</button>
+                            <button class="reset btn btn-primary float-left mx-4" type="reset" value="Clear">Clear</button>
+                            <button type="button" class="button-close-page btn btn-success float-right mx-4">Close</button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Add Favorite Destination  -->
-        <div class="card mt-2">
-            <div class="card-header">
-                Add Favorite
-            </div>
-            <div class="card-body">
-                <!-- Entry Form -->
-                <form class="form-input">
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input id="name" placeholder="Hilton Back Bay" type="text">
-                    </div>
-                    <div class="form-group">
-                        <label for="address">Address</label>
-                        <input id="address" placeholder="40 Dalton St" type="text">
-                    </div>
-                    <div class="form-group">
-                        <label for="city">City</label>
-                        <input id="city" placeholder="Boston" type="text">
-                    </div>
-                    <div class="form-group">
-                        <label for="state">State</label>
-                        <input id="state" placeholder="MA" type="text">
-                    </div>
-                    <div class="form-group">
-                        <label for="zipCode">Zip Code</label>
-                        <input id="zipCode" placeholder="02115" type="text">
-                    </div>
-                    <button class="submit btn btn-primary float-left mx-4" id="add-favorite-btn" value="Submit">Submit</button>
-                    <button class="reset btn btn-primary float-left mx-4" type="reset" value="Clear">Clear</button>
-                </form>
-            </div>
-        </div>
-    </div>
-    </div>
+    </main>
 
     <script type="text/javascript" src="assets/javascript/favoritesModel.js"></script>
     <script type="text/javascript" src="assets/javascript/favoritesEditController.js"></script>
