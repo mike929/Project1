@@ -82,6 +82,11 @@ $(document).ready(function () {
         var index = $(this).attr("data-index");
         var key = $(this).attr("data-key");
 
+        // Save the key to local storage for use on home page to pass back to dashboard
+        saveKeyToLocalStorage(key);
+
+        // * The following lines ar e just for testing
+        // * ==============================================
         // get the one clicked from array in memory
         let favoritePlace = arrayItemGet(index);
         console.log(favoritePlace);
@@ -93,6 +98,12 @@ $(document).ready(function () {
 
         // Show the weather, places, map for this favorite
         // Go to the dashboard with the place selected
+
+        // * END TEST CODE - this is where real app code starts 
+        // * ==============================================
+
+        // switch page to dashboard
+        window.location.href = "index.html";
 
     });
 
@@ -154,7 +165,7 @@ $(document).ready(function () {
     // MAIN Start
     // Populate this list of favorite places in the database
     favoritesGet(function (favs) {
-        favoritePlaces = favs;          // copy the array into the global var for this context
+        favoritePlaces = favs; // copy the array into the global var for this context
 
         // render fav list
         favoritesRender(favoritePlaces);
