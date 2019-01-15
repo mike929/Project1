@@ -101,16 +101,14 @@
         <div class="row">
 
             <div class="col-md-12">
-
-                <div class="keys">
+                <!-- WEATHER DATA FROM API -->
+                <div class="keys" id="weatherDataWeek">
                     <div data-key="65" class="key">
                         <kbd>Monday</kbd>
                         <span class="value"></span>
                         <span id="switch" class="switch"></span>
                         <canvas width="54px" height="54px" id="icon"></canvas>
                         <span class="sound" class="temperature"></span>
-
-
                     </div>
                     <div data-key="83" class="key">
                         <kbd>Tuesday</kbd>
@@ -160,25 +158,27 @@
     </div>
     <div class="container weather">
         <div class="row2">
-
             <div class="col-md-12">
-
-                <!-- Current Employees-->
+                <!-- Current Day Weather -->
                 <div class="card mb-4">
-                    <div class="card-header">City Weather Lookup</div>
+                    <div class="card-header">Weather for <span id="selectedDay"></span></div>
                     <div class="card-body">
-                        <table class="table table-sm table-hover table-dark" id='employee-table'>
-                            <thead>
-                                <tr>
-                                    <th scope="col">Current Temp</th>
-                                    <th scope="col">Temp High</th>
-                                    <th scope="col">Temp Low</th>
-                                    <th scope="col">Humidity</th>
-                                    <th scope="col">Wind</th>
-                                    <th scope="col">Clouds</th>
-                                </tr>
-                            </thead>
-                        </table>
+                        <div class="container-fluid">
+                            <table class="table table-sm table-hover table-striped" id='daysWeather-table'>
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Current Temp</th>
+                                        <th scope="col">Temp Low</th>
+                                        <th scope="col">Temp High</th>
+                                        <th scope="col">Humidity</th>
+                                        <th scope="col">Wind</th>
+                                        <th scope="col">Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="weatherDataDay">
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -191,14 +191,14 @@
 
                 <!-- <div class="row3"> -->
                 <!-- <div class="col-md-6"> -->
-                    <!-- Add City  -->
-                    <!-- <div class="card mb-4">
+                <!-- Add City  -->
+                <!-- <div class="card mb-4">
                         <div class="card-header text-center">Weather</div>
                         <button id="select-city">GET WEATHER</button>
                         <div class="card-body" id="weatherData"> -->
 
-                            <!-- maybe return data in a table, not sure if the flow works for this -->
-                            <!-- <table class="table bg-light table-hover">
+                <!-- maybe return data in a table, not sure if the flow works for this -->
+                <!-- <table class="table bg-light table-hover">
 
                                 
 
@@ -211,7 +211,7 @@
                           </tr>
                           </table> -->
 
-                            <!-- <form>
+                <!-- <form>
                                 <div class="form-group">
                                     <label for="employee-name-input">City</label>
                                     <input class="form-control" id="employee-name-input" placeholder="City Name" type="text">
@@ -231,7 +231,7 @@
                                 <button class="btn btn-success float-right" id="add-employee-btn">Submit</button>
                             </form> -->
 
-                        <!-- </div>
+                <!-- </div>
 
                     </div>
                 </div> -->
@@ -248,13 +248,13 @@
 
                             <!-- Places -->
                             <table class="table" id="places-table">
-                            <tr>
-                                <th>Name</th>
-                                <th>Cuisine Type</th>
-                                <th>Price</th>
-                                <th>Rating</th>
-                                <th>Address</th>
-                            </tr>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Cuisine Type</th>
+                                    <th>Price</th>
+                                    <th>Rating</th>
+                                    <th>Address</th>
+                                </tr>
                             </table>
                             <div class="back">
                                 <div class="card-body">

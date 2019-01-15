@@ -4,6 +4,51 @@
  */
 let favoritePlaces = []; // array of objects for all the favorite cities
 
+/*
+ * Renderring weather data for now while waiting on Kelsie
+ * ====================================================================================================
+ */
+function weatherWeeklyRender() {
+    let keys = [1, 2, 3, 4, 5, 6, 7];
+    let days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    let temps = [65, 66, 62, 59, 78, 85, 45];
+    let moods = ["Cloudy", "Rain", "Sunny", "Partly Sunny", "Partly Cloudy", "Sunny","Snow Flurries"];
+
+    $(`#weatherDataWeek`).empty();
+    let newDay;
+
+    // need to get todays date from moments
+    for (let day in days) {
+        newDay = $(`<div data-key="${keys[day]}" data-day="${days[day]}" data-temp="${temps[day]}" data-mood="${moods[day]}" class="key weatherDay">`).append(
+            $(`<kbd>`).text(days[day]),
+            $(`<div class="sound" class="temperature">${temps[day]}</div>`),
+            $(`<span>`).attr("class", "value"),
+            $(`<span>`).attr("id", "switch"),
+            $(`<canvas width="54px" height="54px" id="icon"></canvas>`),
+            $(`<div class="sound" class="mood">${moods[day]}</div>`)
+        );
+        $(`#weatherDataWeek`).append(newDay);
+    }
+}
+
+function selectedDaysWeatherRender(dayWeatherObject) {
+    $("#selectedDay").text(dayWeatherObject.day);
+
+    $(`#weatherDataDay`).empty();
+    let newRow;
+
+    newRow = $(`<tr data-day="${dayWeatherObject.day}">`).append(
+        $("<td>").text(`${dayWeatherObject.currentTemp}`),
+        $("<td>").text(`${dayWeatherObject.lowTemp}`),
+        $("<td>").text(`${dayWeatherObject.highTemp}`),
+        $("<td>").text(`${dayWeatherObject.humidity}`),
+        $("<td>").text(`${dayWeatherObject.wind}`),
+        $("<td>").text(`${dayWeatherObject.clouds}`)
+    );
+    $(`#weatherDataDay`).append(newRow);
+
+}
+
 // render the HTML from the the array into the table
 function favoritesDropdwnRender(favorites) {
 
@@ -12,15 +57,6 @@ function favoritesDropdwnRender(favorites) {
 
     for (let i in favorites) {
         let favoritePlace = favorites[i];
-
-        //         <select>
-        //    <option value='1'>Option1</option>
-        //    <option value='2'>Option2</option>
-        //    <option value='3'>Option3</option>
-        //    <option value='4'>Option4</option>
-        //    <option value='5'>Option5</option>
-        // </select>
-
         newRow = $(`<li class="dropdown-item" id="${favoritePlace.key}" data-key="${favoritePlace.key}" data-index="${i}">${favoritePlace.name}</li>`);
 
         // Append the new row to the table
@@ -68,8 +104,29 @@ $(document).ready(function () {
 
         // run the function that calls the DB and handles the result
         currentFavoriteHandler(key);
-
     });
+
+    // Select a day 
+    $(document.body).on("click", ".weatherDay", function () {
+
+        var key = $(this).attr("data-key");
+        var day = $(this).attr("data-day");
+        var temp = $(this).attr("data-temp");
+        var mood = $(this).attr("data-mood");
+
+        let selectedDayWeather = {};
+        selectedDayWeather.key = key;
+        selectedDayWeather.day = day;
+        selectedDayWeather.currentTemp = temp;
+        selectedDayWeather.lowTemp = 32;
+        selectedDayWeather.highTemp = 71;
+        selectedDayWeather.humidity = "35%";
+        selectedDayWeather.wind = "8mph";
+        selectedDayWeather.clouds = mood;
+
+        selectedDaysWeatherRender(selectedDayWeather);
+    });
+
 
     // MAIN Start
     // Populate this list of favorite places in the database
@@ -90,5 +147,8 @@ $(document).ready(function () {
             }
         }
     });
+
+    // Render top weather data
+    weatherWeeklyRender();
 
 }); // (document).ready
