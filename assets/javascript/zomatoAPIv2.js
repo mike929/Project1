@@ -84,7 +84,7 @@
              $("<th>").text(type),
              $("<th>").text(price),
              $("<th>").text(rating),
-             $("<th>").text(address)
+             $("<th>").text(address),
          )
          $("#places-table").append(restaurantTable)
          console.log(address)
