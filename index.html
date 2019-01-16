@@ -98,54 +98,59 @@
     </div>
 
     <!-- =============================================================================================== -->
-    <!-- START WEATHER SECTION : Weather Developer Stays in here -->
+    <!-- MAIN : Wraps ALL Content so content may be arranged if needed -->
     <!-- =============================================================================================== -->
-    <section class="container weather" id="weatherSection">
+    <main class="container" id="content-main">
 
-        <!-- Weather Current (for future placement -->
-        <!-- --------------------------------------- -->
-        <div class="container-fluid" id="weatherCurrent">
+        <!-- =============================================================================================== -->
+        <!-- START WEATHER SECTION : Weather Developer Stays in here -->
+        <!-- =============================================================================================== -->
+        <section class="container weather" id="weatherSection">
 
-        </div>
+            <!-- Weather Current (for future placement -->
+            <!-- --------------------------------------- -->
+            <div class="container-fluid" id="weatherCurrent">
 
-        <!-- Weather Cards for Week -->
-        <!-- --------------------------------------- -->
-        <div class="container-fluid" id="weatherCardDeck">
-            <div class="container">
-                <div class="d-flex flex-row justify-content-center" id="weatherDataWeek">
-                    <div data-key="65" class="key">
-                        <kbd>Monday</kbd>
-                        <span class="value"></span>
-                        <span id="switch" class="switch"></span>
-                        <canvas width="54px" height="54px" id="icon"></canvas>
-                        <span class="sound" class="temperature"></span>
+            </div>
+
+            <!-- Weather Cards for Week -->
+            <!-- --------------------------------------- -->
+            <div class="container-fluid" id="weatherCardDeck">
+                <div class="container">
+                    <div class="d-flex flex-row justify-content-center" id="weatherDataWeek">
+                        <div data-key="65" class="key">
+                            <kbd>Monday</kbd>
+                            <span class="value"></span>
+                            <span id="switch" class="switch"></span>
+                            <canvas width="54px" height="54px" id="icon"></canvas>
+                            <span class="sound" class="temperature"></span>
+                        </div>
+                        <div data-key="83" class="key">
+                            <kbd>Tuesday</kbd>
+                            <span class="sound">Rain</span>
+                        </div>
+                        <div data-key="68" class="key">
+                            <kbd>Wednesday</kbd>
+                            <span class="sound">Snow</span>
+                        </div>
+                        <div data-key="70" class="key">
+                            <kbd>Thursday</kbd>
+                            <span class="sound">Windy</span>
+                        </div>
+                        <div data-key="71" class="key">
+                            <kbd>Friday</kbd>
+                            <span class="sound">Clear</span>
+                        </div>
+                        <div data-key="72" class="key">
+                            <kbd>Saturday</kbd>
+                            <span class="sound">Sleet</span>
+                        </div>
+                        <div data-key="74" class="key">
+                            <kbd>Sunday</kbd>
+                            <span class="sound">Sunny</span>
+                        </div>
                     </div>
-                    <div data-key="83" class="key">
-                        <kbd>Tuesday</kbd>
-                        <span class="sound">Rain</span>
-                    </div>
-                    <div data-key="68" class="key">
-                        <kbd>Wednesday</kbd>
-                        <span class="sound">Snow</span>
-                    </div>
-                    <div data-key="70" class="key">
-                        <kbd>Thursday</kbd>
-                        <span class="sound">Windy</span>
-                    </div>
-                    <div data-key="71" class="key">
-                        <kbd>Friday</kbd>
-                        <span class="sound">Clear</span>
-                    </div>
-                    <div data-key="72" class="key">
-                        <kbd>Saturday</kbd>
-                        <span class="sound">Sleet</span>
-                    </div>
-                    <div data-key="74" class="key">
-                        <kbd>Sunday</kbd>
-                        <span class="sound">Sunny</span>
-                    </div>
-                </div>
-                <!-- <div data-key="75" class="key">
+                    <!-- <div data-key="75" class="key">
                 <kbd>K</kbd>
                 <span class="sound">tom</span>
             </div>
@@ -153,9 +158,9 @@
                 <kbd>L</kbd>
                 <span class="sound">tink</span>
             </div> -->
-            </div>
+                </div>
 
-            <!-- <audio data-key="65" src="sounds/clap.wav"></audio>
+                <!-- <audio data-key="65" src="sounds/clap.wav"></audio>
             <audio data-key="83" src="sounds/hihat.wav"></audio>
             <audio data-key="68" src="sounds/kick.wav"></audio>
             <audio data-key="70" src="sounds/openhat.wav"></audio>
@@ -164,82 +169,85 @@
             <audio data-key="74" src="sounds/snare.wav"></audio>
             <audio data-key="75" src="sounds/tom.wav"></audio>
             <audio data-key="76" src="sounds/tink.wav"></audio> -->
-        </div>
+            </div>
 
-        <!-- Weather Table -->
-        <!-- --------------------------------------- -->
-        <div class="container-fluid" id="weatherTable">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card mb-4">
-                        <div class="card-header">Weather for <span id="selectedDay"></span></div>
-                        <div class="card-body">
-                            <div class="container-fluid">
-                                <table class="table table-sm table-hover table-striped" id='daysWeather-table'>
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Current Temp</th>
-                                            <th scope="col">Temp Low</th>
-                                            <th scope="col">Temp High</th>
-                                            <th scope="col">Humidity</th>
-                                            <th scope="col">Wind</th>
-                                            <th scope="col">Description</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="weatherDataDay">
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+        </section>
+
+        <!-- =============================================================================================== -->
+        <!-- DASHBOARD : Wraps weather table and places table so we can re-arrange if neessary -->
+        <!-- - e.g. weather tablein col-6 and places table in col-6 vs rows and maybe stack for mobile -->
+        <!-- =============================================================================================== -->
+        <div class="row" id="content-dashboardInfo">
+
+            <!-- Weather Table -->
+            <!-- --------------------------------------- -->
+            <div class="col container" id="weatherDashboard">
+                <div class="card mb-4 cardR">
+                    <div class="card-header" id="selectedDateRange">Weather for Day"></span></div>
+                    <div class="card-body">
+                        <table class="table w-auto table-responsive-lg table-sm table-hover table-striped" id='daysWeather-table'>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Time</th>
+                                    <th scope="col">Temp Low</th>
+                                    <th scope="col">Temp High</th>
+                                    <th scope="col">Rain</th>
+                                    <th scope="col">Humidity</th>
+                                    <th scope="col">Wind</th>
+                                    <th scope="col">Description</th>
+                                </tr>
+                            </thead>
+                            <tbody id="weatherDataDay">
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-    <!-- =============================================================================================== -->
-    <!-- END WEATHER SECTION -->
-    <!-- =============================================================================================== -->
 
-    <!-- =============================================================================================== -->
-    <!-- START PLACES SECTION : Places Developer Stays in Here -->
-    <!-- =============================================================================================== -->
-    <div class="container big cards">
-        <div class="parent">
-            <div class="card-deck">
-                <div class="card cardR scene cardR__face--front mb-4">
-                    <!-- <div class="card cardR scene cardR__face--back mb-4"> -->
-                    <div class="front">
-                        <div class="card-header text-center">Places FRONT</div>
-                        <div class="card-body">
+            <!-- =============================================================================================== -->
+            <!-- END WEATHER SECTION -->
+            <!-- =============================================================================================== -->
 
-                            <!-- Places -->
-                            <table class="table" id="places-table">
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Cuisine Type</th>
-                                    <th>Price</th>
-                                    <th>Rating</th>
-                                    <th>Address</th>
-                                </tr>
-                            </table>
-                            <div class="back">
+            <!-- =============================================================================================== -->
+            <!-- START PLACES SECTION : Places Developer Stays in Here -->
+            <!-- =============================================================================================== -->
+            <div class="col container big cards" id="placesDashboard">
+                <div class="parent">
+                    <div class="card-deck">
+                        <div class="card cardR scene cardR__face--front mb-4">
+                            <!-- <div class="card cardR scene cardR__face--back mb-4"> -->
+                            <div class="front">
+                                <div class="card-header text-center">Places FRONT</div>
                                 <div class="card-body">
 
-                                    <!-- <div class="card cardR scene cardR__face--back mb-4"></div> -->
-                                    <p>Something on the BACKSIDE</p>
-                                    <p>Another thing</p>
+                                    <!-- Places -->
+                                    <table class="table table-responsive-lg table-striped" id="places-table">
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Cuisine Type</th>
+                                            <th>Price</th>
+                                            <th>Rating</th>
+                                            <th>Address</th>
+                                        </tr>
+                                    </table>
+                                    <div class="back">
+                                        <div class="card-body">
 
+                                            <!-- <div class="card cardR scene cardR__face--back mb-4"></div> -->
+                                            <p>Something on the BACKSIDE</p>
+                                            <p>Another thing</p>
+
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- used to test animated gif for weather boxes -->
+                <!-- used to test animated gif for weather boxes -->
 
-        <!-- <div class="container_bottom">
+                <!-- <div class="container_bottom">
             <div class="summary">
             </div>
           
@@ -254,32 +262,35 @@
           </div> -->
 
 
-        <!-- </div>
+                <!-- </div>
     </div> -->
-        <script src="assets/javascript/app.js"></script>
-        <script src="assets/javascript/zomatoAPIv2.js"></script>
-        <script src="assets/javascript/weatherAPI.js"></script>
-        <script src="assets/javascript/weatherAPIicons.js"></script>
-        <script src="assets/javascript/skycons.js"></script>
+            </div>
+            <!-- =============================================================================================== -->
+            <!-- END PLACES SECTION -->
+            <!-- =============================================================================================== -->
+        </div>
+
+        <!-- =============================================================================================== -->
+        <!-- START MAP SECTION : MAP Developer Stays in Here -->
+        <!-- =============================================================================================== -->
+        <section class="container" id="mapSection">
+        </section>
+        <!-- =============================================================================================== -->
+        <!-- END MAP SECTION -->
+        <!-- =============================================================================================== -->
+
+    </main>
+    <!-- END MAIN SECTION THAT WRAPS ALL CONTENT (in order to change later) -->
+
+    <script src="assets/javascript/app.js"></script>
+    <script src="assets/javascript/zomatoAPIv2.js"></script>
+    <script src="assets/javascript/weatherAPI.js"></script>
+    <script src="assets/javascript/weatherAPIicons.js"></script>
+    <script src="assets/javascript/skycons.js"></script>
 
 
-        <!-- leave controller script at bottom of links -->
-        <script src="assets/javascript/favoritesDashboardController.js"></script>
-    </div>
-    <!-- =============================================================================================== -->
-    <!-- END PLACES SECTION -->
-    <!-- =============================================================================================== -->
-
-    <!-- =============================================================================================== -->
-    <!-- START MAP SECTION : MAP Developer Stays in Here -->
-    <!-- =============================================================================================== -->
-    <section class="container" id="mapSection">
-    </section>
-    <!-- =============================================================================================== -->
-    <!-- END MAP SECTION -->
-    <!-- =============================================================================================== -->
-
-
+    <!-- leave controller script at bottom of links -->
+    <script src="assets/javascript/favoritesDashboardController.js"></script>
 </body>
 
 </html>
