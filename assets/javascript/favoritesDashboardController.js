@@ -17,6 +17,17 @@ function errorRender(err) {
  * Renderring weather data for now while waiting on Kelsie
  * ====================================================================================================
  */
+function doesExist(stringTpFind, insideStr) {
+    // Do work
+    var str = "Hello world, welcome to the universe.";
+    if (insideStr.indexOf(stringTpFind) > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+// Render the cards for each day
 function weatherDailyRender(dailyWeather) {
 
     $(`#weatherDataWeek`).empty();
@@ -29,37 +40,85 @@ function weatherDailyRender(dailyWeather) {
         let convertedDate = moment.unix(dailyWeather[i].day);
         let dayOfWeek = convertedDate.format('dddd');
         convertedDate = convertedDate.format("MM-DD");
+        let lowTemp = dailyWeather[i].lowTemp.toFixed(0);
+        let highTemp = dailyWeather[i].highTemp.toFixed(0);
+
+        console.log(dailyWeather[i].icon);
+        let caption = "Normal";
+
+        if (dailyWeather[i].icon.indexOf('partly') >= 0) {
+            caption = "Partly Cloudy";
+        } else {
+            caption = dailyWeather[i].icon;
+        }
 
         newDay = $(`<div data-index="${i}" data-day="${dayOfWeek}" class="key weatherDay">`).append(
-            $(`<kbd>`).text(convertedDate),
+            $(`<div>`).text(convertedDate),
             $(`<kbd>`).text(dayOfWeek),
-            $(`<span class="value">${dailyWeather[i].lowTemp} / ${dailyWeather[i].highTemp}</div>`),
+            $(`<span class="value">${lowTemp} / ${highTemp}</div>`),
             $(`<span>`).attr("id", "switch"),
             $(`<canvas width="54px" height="54px" id="icon"></canvas>`),
-            $(`<div class="sound temperature">${dailyWeather[i].icon}</div>`)
+            $(`<div class="sound temperature">${caption}</div>`)
         );
 
         $(`#weatherDataWeek`).append(newDay);
     }
 }
 
-function selectedDaysWeatherRender(dayWeatherObject) {
-    $("#selectedDay").text(dayWeatherObject.day);
+// renderr one days weather - hourly (for now do days)
+function selectedDaysWeatherRender(weatherDataRows) {
+    // Note Table ID is: $("#daysWeather-table") in case I need to overwrite whole table
+    $("#selectedDateRange").text("Weather For Next 7 Days / Soon to be hourly");
 
     $(`#weatherDataDay`).empty();
+    for (let i in weatherDataRows) {
+
+        // Compute Day of Weak from day in object
+        let convertedDate = moment.unix(weatherDataRows[i].day);
+        let dayOfWeek = convertedDate.format('dddd');
+        convertedDate = convertedDate.format("MM-DD");
+        let lowTemp = weatherDataRows[i].lowTemp.toFixed(0);
+        let highTemp = weatherDataRows[i].highTemp.toFixed(0);
+
+        if (weatherDataRows[i].icon.indexOf('partly') >= 0) {
+            caption = "Partly Cloudy";
+        } else {
+            caption = weatherDataRows[i].icon;
+        }
+
+        let newRow;
+
+        newRow = $(`<tr data-day="${weatherDataRows[i].day}">`).append(
+            $("<td>").text(`${dayOfWeek}`),
+            $("<td>").text(`${lowTemp}`),
+            $("<td>").text(`${highTemp}`),
+            $("<td>").text(`${weatherDataRows[i].chanceOfRain}`),
+            $("<td>").text(`${weatherDataRows[i].humidity}`),
+            $("<td>").text(`${weatherDataRows[i].wind}`),
+            $("<td>").text(`${weatherDataRows[i].summary}`)
+        );
+        $(`#weatherDataDay`).append(newRow);
+    }
+}
+
+function currentWeatherRender(weatherCurrent) {
+
+    $(`#weatherCurrent`).empty();
     let newRow;
 
-    newRow = $(`<tr data-day="${dayWeatherObject.day}">`).append(
-        $("<td>").text(`${dayWeatherObject.currentTemp}`),
-        $("<td>").text(`${dayWeatherObject.lowTemp}`),
-        $("<td>").text(`${dayWeatherObject.highTemp}`),
-        $("<td>").text(`${dayWeatherObject.humidity}`),
-        $("<td>").text(`${dayWeatherObject.wind}`),
-        $("<td>").text(`${dayWeatherObject.summary}`)
+    newRow = $(`<div data-day="${weatherCurrent.day}">`).append(
+        $("<td>").text(`${weatherCurrent.day}`),
+        $("<td>").text(`${weatherCurrent.lowTemp}`),
+        $("<td>").text(`${weatherCurrent.highTemp}`),
+        $("<td>").text(`${weatherCurrent.chanceOfRain}`),
+        $("<td>").text(`${weatherCurrent.humidity}`),
+        $("<td>").text(`${weatherCurrent.wind}`),
+        $("<td>").text(`${weatherCurrent.summary}`)
     );
-    $(`#weatherDataDay`).append(newRow);
+    $(`#weatherCurrent`).append(newRow);
 
 }
+
 
 // render the HTML from the the array into the table
 function favoritesDropdwnRender(favorites) {
@@ -99,7 +158,7 @@ function currentFavoriteHandler(key) {
             httpGet(url, function (weatherData) {
                 console.log(weatherData);
 
-                for (let i in weatherData.daily.data) {
+                for (let i = 0; i < 7; i++) {
                     let dayWeather = {};
 
                     dayWeather.day = weatherData.daily.data[i].time;
@@ -117,6 +176,7 @@ function currentFavoriteHandler(key) {
 
                 //Render Weekly
                 weatherDailyRender(dailyWeather);
+                selectedDaysWeatherRender(dailyWeather);
 
             }, errorRender);
             // Call places api
@@ -180,5 +240,24 @@ $(document).ready(function () {
         }
     });
 
+    let card = document.querySelector('#placesCard');
+    let showingFront = true;
+
+    // let card = $('.cardR');
+    $(document.body).on("click", '.cardR', function () {
+        card.classList.toggle('is-flipped');
+        if (showingFront) {
+            showingFront = false;
+            $('#placesCard .back').show();
+            $('#placesCard .front').hide();
+        } else {
+            showingFront = true;
+
+            $('#placesCard .front').show();
+            $('#placesCard .back').hide();
+        }
+        console.log('is-flipped');
+
+    });
 
 }); // (document).ready
