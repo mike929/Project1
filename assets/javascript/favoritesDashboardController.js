@@ -240,5 +240,12 @@ $(document).ready(function () {
         }
     });
 
+    let card = document.querySelector('.cardR');
+    // let card = $('.cardR');
+    $(document.body).on("click", '.cardR', function () {
+        card.classList.toggle('is-flipped');
+        console.log('is-flipped');
+  
+    });
 
 }); // (document).ready
