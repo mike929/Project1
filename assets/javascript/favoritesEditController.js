@@ -66,8 +66,17 @@ $(document).ready(function () {
             zipCode: $("#zipCode").val(),
         };
 
+        // get geocode
         // Store It
-        favoriteAdd(favoritePlace);
+        getLatLongForPlace(favoritePlace, function (newDataForAddress) {
+
+            favoritePlace.lat = newDataForAddress.lat;
+            favoritePlace.lng = newDataForAddress.lng;
+
+            favoriteAdd(favoritePlace);
+
+        }, errorRender);
+
 
         // Clear text-boxes
         $("#name").val("");
@@ -159,13 +168,22 @@ $(document).ready(function () {
         };
         favoritePlace.key = key;
         favoritePlace.editMode = false;
-        favoritePlaces[index] = favoritePlace;
 
-        // Update in firebase
-        favoriteUpdate(key, favoritePlace);
+        getLatLongForPlace(favoritePlace, function (newDataForAddress) {
 
-        // re-render
-        favoritesRender(favoritePlaces);
+            favoritePlace.lat = newDataForAddress.lat;
+            favoritePlace.lng = newDataForAddress.lng;
+
+            favoritePlaces[index] = favoritePlace;
+
+            // Update in firebase
+            favoriteUpdate(key, favoritePlace);
+    
+            // re-render
+            favoritesRender(favoritePlaces);
+                
+        }, errCallback);
+
     });
 
     // MAIN Start
