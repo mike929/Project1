@@ -4,6 +4,7 @@
  */
 let favoritePlaces = []; // array of objects for all the favorite cities
 let dailyWeather = []; // array of objects for all the current daily weather
+let currentWeather = {}; // currentWeatherInSelectedAreas
 
 // handle errors when retrieving from AJAX
 function errorRender(err) {
@@ -119,6 +120,15 @@ function currentWeatherRender(weatherCurrent) {
 
 }
 
+function testGetWeatherCallBack(weatherCurrent, weatherArray) {
+    dayWeather = weatherArray.slice();
+    currentWeather = weatherCurrent;
+
+    // Render Weekly
+    weatherDailyRender(dailyWeather);
+    selectedDaysWeatherRender(dailyWeather);
+
+}
 
 // render the HTML from the the array into the table
 function favoritesDropdwnRender(favorites) {
@@ -150,13 +160,30 @@ function currentFavoriteHandler(key) {
             geoLocation.lat = favoriteFB.lat;
             geoLocation.lng = favoriteFB.lng;
 
-            let currentWeather = {};
-            let dailyWeather = [];
+            const exclude = "?exclude=minutely,alerts,flags";
+            const unit = "?units=si";
+            const CORSFix = "https://cors-anywhere.herokuapp.com/";
 
-            let url = `https://api.darksky.net/forecast/${PAUL_DARKSKY_APIKEY}/${geoLocation.lat},${geoLocation.lng}`;
+            let url = `${CORSFix}https://api.darksky.net/forecast/${PAUL_DARKSKY_APIKEY}/${geoLocation.lat},${geoLocation.lng}${exclude}${unit}`;
 
             httpGet(url, function (weatherData) {
                 console.log(weatherData);
+
+                currentWeather = {};
+                currentWeather.day = weatherData.currently.time;
+                currentWeather.timeZone = weatherData.timezone;
+                currentWeather.currentTemp = weatherData.currently.temperature;
+                currentWeather.feelsLike = weatherData.currently.apparentTemperature;
+                currentWeather.humidity = weatherData.currently.humidity;
+                currentWeather.chanceOfRain = weatherData.currently.precipProbability;
+                currentWeather.wind = weatherData.currently.windSpeed;
+                currentWeather.summary = weatherData.currently.summary;
+                currentWeather.icon = weatherData.currently.icon;
+                currentWeather.lowTemp = "";
+                currentWeather.highTemp = "";
+
+                dailyWeather = [];
+                dailyWeather.length = 0; // prevent leaks
 
                 for (let i = 0; i < 7; i++) {
                     let dayWeather = {};
@@ -174,11 +201,13 @@ function currentFavoriteHandler(key) {
                     dailyWeather.push(dayWeather);
                 }
 
-                //Render Weekly
+                // Render Weekly
                 weatherDailyRender(dailyWeather);
                 selectedDaysWeatherRender(dailyWeather);
-
             }, errorRender);
+
+            // getWeather(geoLocation, testGetWeatherCallBack, errorRender);
+
             // Call places api
             // getPlaceInfo(favoriteFB);
         }
@@ -210,7 +239,6 @@ $(document).ready(function () {
         let selectedDayWeather = {};
         selectedDayWeather.key = key;
         selectedDayWeather.day = dailyWeather[key].day;
-        selectedDayWeather.currentTemp = dailyWeather[key].currentTemp;
         selectedDayWeather.lowTemp = dailyWeather[key].lowTemp;
         selectedDayWeather.highTemp = dailyWeather[key].highTemp;
         selectedDayWeather.humidity = dailyWeather[key].humidity;

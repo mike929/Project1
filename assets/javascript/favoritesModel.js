@@ -242,15 +242,18 @@ const dailyWeatherClass = [{
 function getWeather(geoLocation, aCallback, errCallback) {
     let currentWeather = {};
     let dailyWeather = [];
+    const exclude = "?exclude=minutely,alerts,flags";
+    const unit = "?units=si";
 
-    let url = `https://api.darksky.net/forecast/${PAUL_DARKSKY_APIKEY}/${geoLocation.lat},${geoLocation.lng}`;
+
+    let url = `https://api.darksky.net/forecast/${PAUL_DARKSKY_APIKEY}/${geoLocation.lat},${geoLocation.lng}${exclude}${unit}`;
 
     httpGet(url, function (weatherData) {
         console.log(weatherData);
 
         currentWeather = {};
         currentWeather.day = weatherData.currently.time;
-        currentWeather.timeZone = weatherData.currently.timezone;
+        currentWeather.timeZone = weatherData.timezone;
         currentWeather.currentTemp = weatherData.currently.temperature;
         currentWeather.feelsLike = weatherData.currently.apparentTemperature;
         currentWeather.humidity = weatherData.currently.humidity;
@@ -264,13 +267,11 @@ function getWeather(geoLocation, aCallback, errCallback) {
         dailyWeather = [];
         dailyWeather.length = 0; // prevent leaks
 
-        for (let i in weatherData.daily.data) {
+        for (let i = 0; i < 7; i++) {
             let dayWeather = {};
 
             dayWeather.day = weatherData.daily.data[i].time;
-            dayWeather.day = weatherData.currently.timezone; // use same timezone
-            dayWeather.currentTemp = weatherData.daily.data[i].temperature;
-            dayWeather.feelsLike = weatherData.daily.data[i].apparentTemperature;
+            dayWeather.timeZone = weatherData.timezone;
             dayWeather.humidity = weatherData.daily.data[i].humidity;
             dayWeather.chanceOfRain = weatherData.daily.data[i].precipProbability;
             dayWeather.wind = weatherData.daily.data[i].windSpeed;
@@ -279,7 +280,7 @@ function getWeather(geoLocation, aCallback, errCallback) {
             dayWeather.lowTemp = weatherData.daily.data[i].temperatureLow;
             dayWeather.highTemp = weatherData.daily.data[i].temperatureHigh;
 
-            dailyWeather.append(dayWeather);
+            dailyWeather.push(dayWeather);
         }
 
         aCallback(currentWeather, dailyWeather);

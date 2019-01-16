@@ -1,46 +1,47 @@
 /*html {
     /* font-size: 10px; */
-    /* background: url(/assets/images/sky-29.jpg) bottom center;
+/* background: url(/assets/images/sky-29.jpg) bottom center;
     background-size: 100%;
     background-size: cover; */
-    
 
-    /* background: url(http://i.imgur.com/b9r5sEL.jpg) bottom center; */
-    /* background-size: cover; */
-  
-  .jumbotron {
+
+/* background: url(http://i.imgur.com/b9r5sEL.jpg) bottom center; */
+/* background-size: cover; */
+
+.jumbotron {
     background-color: transparent !important;
     font-family: 'Philosopher', sans-serif;
-   }
-  
-  
-  body,html {
+}
+
+
+body,
+html {
     background: url(../images/sky-29.jpg) bottom center;
     background-size: 100%;
     background-size: cover;
     margin: 0;
     padding: 0;
     /* font-family: sans-serif; */
-  }
+}
 
-  .h1 {
-    font-size:5vw;
-  }
+.h1 {
+    font-size: 5vw;
+}
 
-  /* .row3,
+/* .row3,
   .row4 {
     width: 50%;
   } */
-  
-  .keys {
+
+.keys {
     display: flex;
     flex: 1;
     min-height: 25vh;
     align-items: center;
     justify-content: center;
-  }
-  
-  .key {
+}
+
+.key {
     border: .4rem solid black;
     border-radius: .5rem;
     margin: 1rem;
@@ -50,68 +51,66 @@
     width: 10rem;
     text-align: center;
     color: white;
-    background: rgba(0,0,0,0.4);
+    background: rgba(0, 0, 0, 0.4);
     text-shadow: 0 0 .5rem black;
-  }
-  
-  .key:hover {
+}
+
+.key:hover {
     transform: scale(1.1);
     border-color: #ffc600;
     box-shadow: 0 0 1rem #ffc600;
-  }
-  
-  kbd {
+}
+
+kbd {
     display: block;
     font-size: 4rem;
-  }
-  
-  .sound {
+}
+
+.sound {
     font-size: 1.2rem;
     text-transform: uppercase;
     letter-spacing: .1rem;
     color: #ffc600;
-  }
+}
 
-  .container_button {
+.container_button {
     display: flex;
     height: 84vh;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-  }
+}
 
-  .switch {
+.switch {
     cursor: pointer;
     color: yellow;
-  }
-  
-  #dataPull {
-    background: yellow;
-  }
+}
 
+#dataPull {
+    background: yellow;
+}
 
 /*--------Card Rotation ------*/
-
-  .scene {
+.scene {
     /* width: 200px;
     height: 260px; */
     perspective: 1000px;
-  }
+}
 
-  .cardR {
+.cardR {
     /* width: 100%;
     height: 100%; */
     transition: transform .8s;
     transform-style: preserve-3d;
     cursor: pointer;
     position: relative;
-  }
-  
-  .cardR.is-flipped {
-    transform: rotateY(180deg);
-  }
-  
-  .cardR__face {
+}
+
+.cardR.is-flipped {
+    transform: rotateY(360deg);
+}
+
+.cardR__face {
     /* position: absolute; */
     /* width: 100%;
     height: 100%; */
@@ -123,31 +122,27 @@
     /* backface-visibility: hidden;
     -webkit-backface-visibility: hidden */
 
-  }
+}
 
-    .cardR {
+.cardR {
     /* width: 100%;
     height: 100%; */
     transition: transform .8s ease-in-out 0s;
     transform-style: preserve-3d;
     cursor: pointer;
     position: relative;
-  }
-  
-  .cardR.is-flipped {
-    transform: rotateY(180deg);
+}
 
-  }
-
-  .front, .back {
+.front,
+.back {
     backface-visibility: hidden;
-  
+
     /* position: absolute; */
     /* top: 0;
     left: 0; */
-  }
-  
-  .cardR__face--backface--front {
+}
+
+.cardR__face--backface--front {
     position: absolute;
     /* width: 100%;
     height: 100%; */
@@ -158,13 +153,13 @@
     font-size: 40px; */
     /* backface-visibility: hidden;
     -webkit-backface-visibility: hidden */
-  }
-  
-  .cardR__face--front {
+}
+
+.cardR__face--front {
     background: red;
-  }
-  
-  .cardR__face--back {
+}
+
+.cardR__face--back {
     background: blue;
     transform: rotateY(180deg);
-  }
+}
