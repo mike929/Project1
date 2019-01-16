@@ -199,7 +199,7 @@ function currentFavoriteHandler(key) {
                 selectedDaysWeatherRender(dailyWeather);
             }, errorRender);
 
-            getWeatherAPI(geoLocation.lat, geoLocation.lng, testGetWeatherCallBack);
+            getWeatherAPI(geoLocation.lat, geoLocation.lng, testGetWeatherCallback);
 
             // Call places api
             getPlaceInfo(favoriteFB);

@@ -33,7 +33,7 @@ function searchWeatherInArea(lat, long, aCallback) {
   });
 }
 
-function getWeather(lat, long) {
+function getWeatherAPI(lat, long) {
 
   searchWeatherInArea(lat, long, testGetWeatherCallback);
 
