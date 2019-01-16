@@ -15,6 +15,10 @@
 /*global console:false */
 /*global alert:false */
 /*global firebase:false */
+/*global localStorage:false */
+
+// User info hardcode - when auth added, use real user info
+const userID = "team9";
 
 // Firebase
 const PAUL_FB_APIKEY = "AIzaSyC1rPD9yqt2-9mk-T2WEwmFAc4uzYYr1UI";
@@ -33,7 +37,7 @@ firebase.initializeApp(config);
 let database = firebase.database();
 
 // Reference where all favorites  are stored in DB
-let favoritesDBRef = database.ref("/favorite_cities");
+let favoritesDBRef = database.ref(`/favorite_cities/${userID}`);
 let favorites = []; // array of objects for all the favorite cities
 // Template Object/Class for what a favorite place in tge array holds
 let ItemFavoritePlace = {
@@ -43,6 +47,8 @@ let ItemFavoritePlace = {
     state: "",
     zipCode: "",
     key: "", // database key for update, delete or getting new from DB
+    lat: "", // from google API and stored
+    lng: "", // from google API and stored
     editMode: false // helper mode to tell whether user is editing this item
 };
 // Template Object/Class for what a favorite place in DB holds (i.e. snapshot.val())
@@ -51,7 +57,9 @@ let DBFavoritePlace = {
     address: "",
     city: "",
     state: "",
-    zipCode: ""
+    zipCode: "",
+    lat: "",
+    lng: ""
 };
 
 /*
@@ -139,8 +147,6 @@ function getKeyFromLocalStorage() {
     return localStorage.getItem("favoriteKey");
 }
 
-
-
 // remove a favorite from the array based on key
 function arrayItemRemove(favorites, index) {
     let removed = favorites.splice(index, 1);
@@ -159,11 +165,124 @@ function httpGet(requestURL, aCallback, errCallback) {
         dataType: 'JSON',
         success: function (result) {
             console.log(result);
-            aCallback(result.data);
+            aCallback(result);
         },
         error: function (err) {
             console.log('error:' + err);
             errCallback(err);
         }
     });
+}
+
+/*
+ * Google Places API to get lat long
+ * ====================================================================================================
+ */
+const PAUL_GOOGLE_APIKEY = "AIzaSyCLRBB75clINkYZNewdGEBcxcLn9QOXUCw";
+
+function getLatLongForPlace(favoritePlace, aCallback, errCallback) {
+    let address = `${favoritePlace.address}${favoritePlace.city}${favoritePlace.state}${favoritePlace.zipCode}`;
+
+    address = address.split(" ").join("+"); // replace spaces with plus for query
+
+    let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${PAUL_GOOGLE_APIKEY}`;
+
+    httpGet(url, function (geoData) {
+        console.log(geoData);
+        console.log(geoData.results[0].formatted_address);
+        console.log(geoData.results[0].geometry.location.lat);
+        console.log(geoData.results[0].geometry.location.lng);
+
+        let newDataForAddress = {};
+        newDataForAddress.formatted_address = geoData.results[0].formatted_address;
+        newDataForAddress.lat = geoData.results[0].geometry.location.lat;
+        newDataForAddress.lng = geoData.results[0].geometry.location.lng;
+
+        aCallback(newDataForAddress);
+
+    }, errCallback);
+}
+
+/*
+ * Dark Sky Weather API
+ * This means that you're converting UNIX timestamps to local times incorrectly.
+ * For each UNIX timestamp, there is a corresponding local time for each and every different timezone.
+ *  For example, the UNIX time 1466892000 corresponds to 6PM (18:00) in New York, 10PM (22:00) GMT,
+ *  and midnight (00:00) of the following day in Amsterdam. When converting UNIX 
+ * timestamps to local times, always use the timezone property of the API response,
+ *  so that your software knows which timezone is the right one.
+ * ====================================================================================================
+ */
+const PAUL_DARKSKY_APIKEY = "889d321b7d461f9aa8d4a951f2e163b6";
+// Current Weather Object Class - just to show what is being passed
+const currentWeatherClass = {
+    day: 0, // need to find date format and convert
+    timeZone: 0, // need to find date format and convert
+    currentTemp: 0.0,
+    feelsLike: 0.0,
+    humidity: 0.0, // %
+    chanceOfRain: 0.0, //%
+    wind: 0.0,
+    summary: "",
+    icon: ""
+};
+// Array of daily weather classes
+const dailyWeatherClass = [{
+    day: 0, // need to find date format and convert
+    timeZone: 0, // need to find date format and convert
+    humidity: 0.0, // %
+    chanceOfRain: 0.0, //%
+    wind: 0.0,
+    summary: "",
+    icon: "",
+    lowTemp: "",
+    highTemp: ""
+}];
+
+function getWeather(geoLocation, aCallback, errCallback) {
+    let currentWeather = {};
+    let dailyWeather = [];
+
+    let url = `https://api.darksky.net/forecast/${PAUL_DARKSKY_APIKEY}/${geoLocation.lat},${geoLocation.lng}`;
+
+    httpGet(url, function (weatherData) {
+        console.log(weatherData);
+
+        currentWeather = {};
+        currentWeather.day = weatherData.currently.time;
+        currentWeather.timeZone = weatherData.currently.timezone;
+        currentWeather.currentTemp = weatherData.currently.temperature;
+        currentWeather.feelsLike = weatherData.currently.apparentTemperature;
+        currentWeather.humidity = weatherData.currently.humidity;
+        currentWeather.chanceOfRain = weatherData.currently.precipProbability;
+        currentWeather.wind = weatherData.currently.windSpeed;
+        currentWeather.summary = weatherData.currently.summary;
+        currentWeather.icon = weatherData.currently.icon;
+        currentWeather.lowTemp = "";
+        currentWeather.highTemp = "";
+
+        dailyWeather = [];
+        dailyWeather.length = 0; // prevent leaks
+
+        for (let i in weatherData.daily.data) {
+            let dayWeather = {};
+
+            dayWeather.day = weatherData.daily.data[i].time;
+            dayWeather.day = weatherData.currently.timezone; // use same timezone
+            dayWeather.currentTemp = weatherData.daily.data[i].temperature;
+            dayWeather.feelsLike = weatherData.daily.data[i].apparentTemperature;
+            dayWeather.humidity = weatherData.daily.data[i].humidity;
+            dayWeather.chanceOfRain = weatherData.daily.data[i].precipProbability;
+            dayWeather.wind = weatherData.daily.data[i].windSpeed;
+            dayWeather.summary = weatherData.daily.data[i].summary;
+            dayWeather.icon = weatherData.daily.data[i].icon;
+            dayWeather.lowTemp = weatherData.daily.data[i].temperatureLow;
+            dayWeather.highTemp = weatherData.daily.data[i].temperatureHigh;
+
+            dailyWeather.append(dayWeather);
+        }
+
+        aCallback(currentWeather, dailyWeather);
+
+    }, errCallback);
 }

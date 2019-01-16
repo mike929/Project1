@@ -3,30 +3,42 @@
  * ====================================================================================================
  */
 let favoritePlaces = []; // array of objects for all the favorite cities
+let dailyWeather = []; // array of objects for all the current daily weather
+
+// handle errors when retrieving from AJAX
+function errorRender(err) {
+    console.log(`Error: ${err.statusText}`);
+    alert(`Error: ${err.statusText}`);
+
+    $("#errorMessage").html(`${err.statusText}`);
+}
 
 /*
  * Renderring weather data for now while waiting on Kelsie
  * ====================================================================================================
  */
-function weatherWeeklyRender() {
-    let keys = [1, 2, 3, 4, 5, 6, 7];
-    let days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-    let temps = [65, 66, 62, 59, 78, 85, 45];
-    let moods = ["Cloudy", "Rain", "Sunny", "Partly Sunny", "Partly Cloudy", "Sunny","Snow Flurries"];
+function weatherDailyRender(dailyWeather) {
 
     $(`#weatherDataWeek`).empty();
     let newDay;
 
     // need to get todays date from moments
-    for (let day in days) {
-        newDay = $(`<div data-key="${keys[day]}" data-day="${days[day]}" data-temp="${temps[day]}" data-mood="${moods[day]}" class="key weatherDay">`).append(
-            $(`<kbd>`).text(days[day]),
-            $(`<div class="sound" class="temperature">${temps[day]}</div>`),
-            $(`<span>`).attr("class", "value"),
+    for (let i in dailyWeather) {
+
+        // Compute Day of Weak from day in object
+        let convertedDate = moment.unix(dailyWeather[i].day);
+        let dayOfWeek = convertedDate.format('dddd');
+        convertedDate = convertedDate.format("MM-DD");
+
+        newDay = $(`<div data-index="${i}" data-day="${dayOfWeek}" class="key weatherDay">`).append(
+            $(`<kbd>`).text(convertedDate),
+            $(`<kbd>`).text(dayOfWeek),
+            $(`<span class="value">${dailyWeather[i].lowTemp} / ${dailyWeather[i].highTemp}</div>`),
             $(`<span>`).attr("id", "switch"),
             $(`<canvas width="54px" height="54px" id="icon"></canvas>`),
-            $(`<div class="sound" class="mood">${moods[day]}</div>`)
+            $(`<div class="sound temperature">${dailyWeather[i].icon}</div>`)
         );
+
         $(`#weatherDataWeek`).append(newDay);
     }
 }
@@ -43,7 +55,7 @@ function selectedDaysWeatherRender(dayWeatherObject) {
         $("<td>").text(`${dayWeatherObject.highTemp}`),
         $("<td>").text(`${dayWeatherObject.humidity}`),
         $("<td>").text(`${dayWeatherObject.wind}`),
-        $("<td>").text(`${dayWeatherObject.clouds}`)
+        $("<td>").text(`${dayWeatherObject.summary}`)
     );
     $(`#weatherDataDay`).append(newRow);
 
@@ -69,25 +81,47 @@ function currentFavoriteHandler(key) {
         console.log(favoriteFB);
 
         // do not try to do anything if it wasnt found
-        if (favoriteFB.name != undefined) {
+        if (favoriteFB != null) {
             // render the name in the text field so you know
             $("#dataPull").val(favoriteFB.name);
 
             // get lat long from Justins API
             // hardcode for now
             let geoLocation = {};
-            geoLocation.lat = 33.787549;
-            geoLocation.long = -84.314085;
+            geoLocation.lat = favoriteFB.lat;
+            geoLocation.lng = favoriteFB.lng;
 
-            // geoLocation = getLatLong(favoriteFB.city);
+            let currentWeather = {};
+            let dailyWeather = [];
 
-            // Call weatherAPI with lat long
-            getWeather(geoLocation.lat, geoLocation.long);
+            let url = `https://api.darksky.net/forecast/${PAUL_DARKSKY_APIKEY}/${geoLocation.lat},${geoLocation.lng}`;
 
+            httpGet(url, function (weatherData) {
+                console.log(weatherData);
+
+                for (let i in weatherData.daily.data) {
+                    let dayWeather = {};
+
+                    dayWeather.day = weatherData.daily.data[i].time;
+                    dayWeather.timeZone = weatherData.timezone;
+                    dayWeather.humidity = weatherData.daily.data[i].humidity;
+                    dayWeather.chanceOfRain = weatherData.daily.data[i].precipProbability;
+                    dayWeather.wind = weatherData.daily.data[i].windSpeed;
+                    dayWeather.summary = weatherData.daily.data[i].summary;
+                    dayWeather.icon = weatherData.daily.data[i].icon;
+                    dayWeather.lowTemp = weatherData.daily.data[i].temperatureLow;
+                    dayWeather.highTemp = weatherData.daily.data[i].temperatureHigh;
+
+                    dailyWeather.push(dayWeather);
+                }
+
+                //Render Weekly
+                weatherDailyRender(dailyWeather);
+
+            }, errorRender);
             // Call places api
             // getPlaceInfo(favoriteFB);
         }
-
     });
 }
 
@@ -109,24 +143,22 @@ $(document).ready(function () {
     // Select a day 
     $(document.body).on("click", ".weatherDay", function () {
 
-        var key = $(this).attr("data-key");
+        var key = $(this).attr("data-index");
         var day = $(this).attr("data-day");
         var temp = $(this).attr("data-temp");
-        var mood = $(this).attr("data-mood");
 
         let selectedDayWeather = {};
         selectedDayWeather.key = key;
-        selectedDayWeather.day = day;
-        selectedDayWeather.currentTemp = temp;
-        selectedDayWeather.lowTemp = 32;
-        selectedDayWeather.highTemp = 71;
-        selectedDayWeather.humidity = "35%";
-        selectedDayWeather.wind = "8mph";
-        selectedDayWeather.clouds = mood;
+        selectedDayWeather.day = dailyWeather[key].day;
+        selectedDayWeather.currentTemp = dailyWeather[key].currentTemp;
+        selectedDayWeather.lowTemp = dailyWeather[key].lowTemp;
+        selectedDayWeather.highTemp = dailyWeather[key].highTemp;
+        selectedDayWeather.humidity = dailyWeather[key].humidity;
+        selectedDayWeather.wind = dailyWeather[key].wind;
+        selectedDayWeather.summary = dailyWeather[key].summary;
 
         selectedDaysWeatherRender(selectedDayWeather);
     });
-
 
     // MAIN Start
     // Populate this list of favorite places in the database
@@ -148,7 +180,5 @@ $(document).ready(function () {
         }
     });
 
-    // Render top weather data
-    weatherWeeklyRender();
 
 }); // (document).ready
