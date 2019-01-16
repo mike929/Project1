@@ -29,7 +29,7 @@ $(document).ready(function(){
           var obj = [data];
         
           function skycons() {
-            var skycons = new Skycons({"color": "black", "resizeClear": true});
+            var skycons = new Skycons({"color": "yellow", "resizeClear": true});
             skycons.add(document.getElementById("icon"), obj[0].currently.icon);
             skycons.play();
           }
