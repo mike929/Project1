@@ -102,6 +102,7 @@ function selectedDaysWeatherRender(weatherDataRows) {
     }
 }
 
+// 
 function currentWeatherRender(weatherCurrent) {
 
     $(`#weatherCurrent`).empty();
@@ -117,7 +118,6 @@ function currentWeatherRender(weatherCurrent) {
         $("<td>").text(`${weatherCurrent.summary}`)
     );
     $(`#weatherCurrent`).append(newRow);
-
 }
 
 function testGetWeatherCallBack(weatherCurrent, weatherArray) {
@@ -127,7 +127,6 @@ function testGetWeatherCallBack(weatherCurrent, weatherArray) {
     // Render Weekly
     weatherDailyRender(dailyWeather);
     selectedDaysWeatherRender(dailyWeather);
-
 }
 
 // render the HTML from the the array into the table
@@ -145,6 +144,7 @@ function favoritesDropdwnRender(favorites) {
     }
 }
 
+// Handle renderring for the favoritie the user has chosen
 function currentFavoriteHandler(key) {
     favoriteGet(key, function (favoriteFB) {
         console.log(favoriteFB);
@@ -154,8 +154,6 @@ function currentFavoriteHandler(key) {
             // render the name in the text field so you know
             $("#dataPull").val(favoriteFB.name);
 
-            // get lat long from Justins API
-            // hardcode for now
             let geoLocation = {};
             geoLocation.lat = favoriteFB.lat;
             geoLocation.lng = favoriteFB.lng;
@@ -209,7 +207,7 @@ function currentFavoriteHandler(key) {
             // getWeather(geoLocation, testGetWeatherCallBack, errorRender);
 
             // Call places api
-            // getPlaceInfo(favoriteFB);
+            getPlaceInfo(favoriteFB);
         }
     });
 }
