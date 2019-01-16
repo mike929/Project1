@@ -1,56 +1,44 @@
-function searchWeatherInArea(lat, long) {
+function searchWeatherInArea(lat, long, aCallback) {
 
-    // Querying the weather api for the selected city 
-     var apiKey = "94aaecbfef6d8d2885bebd3b1512da6f";
-     var exclude = "?exclude=minutely,alerts,flags";
-     var unit = "?units=si";
-     var url = "https://api.darksky.net/forecast/" + apiKey + "/" + lat + "," + long + exclude + unit;
+  // Querying the weather api for the selected city 
+  var apiKey = "94aaecbfef6d8d2885bebd3b1512da6f";
+  var exclude = "?exclude=minutely,alerts,flags";
+  var unit = "?units=si";
+  var url = "https://api.darksky.net/forecast/" + apiKey + "/" + lat + "," + long + exclude + unit;
 
-    //get darksky api data
-    $.ajax({
-      url: url,
-      dataType: "jsonp",
-      success: function (weatherData) { 
-        console.log(weatherData);
+  //get darksky api data
+  $.ajax({
+    url: url,
+    dataType: "jsonp",
+    success: function (weatherData) {
+      let dailyWeather = [];
+      let dayWeather = {};
+      for (let i in weatherData.daily.data) {
 
-        //icon information 
-        var icon = weatherData.currently.temperature;
-        //weather description
-        var description = weatherData.currently.summary;
-        //change background image
-        //temperature
-        var temperature = weatherData.currently.temperature;
-        // Printing the entire object to console
+        dayWeather.day = weatherData.daily.data[i].time;
+        dayWeather.timeZone = weatherData.timezone;
+        dayWeather.humidity = weatherData.daily.data[i].humidity;
+        dayWeather.chanceOfRain = weatherData.daily.data[i].precipProbability;
+        dayWeather.wind = weatherData.daily.data[i].windSpeed;
+        dayWeather.summary = weatherData.daily.data[i].summary;
+        dayWeather.icon = weatherData.daily.data[i].icon;
+        dayWeather.lowTemp = weatherData.daily.data[i].temperatureLow;
+        dayWeather.highTemp = weatherData.daily.data[i].temperatureHigh;
 
-        // Constructing HTML containing all the weather data 
-        //   var cityName = $("<h1>").text(response.name);
-        //   var weatherURL = $("<a>").attr("href", response.url).append(cityName);
-        //   var trackerCount = $("<h2>").text(response.tracker_count + " tracking the various weather patterns.");
+        dailyWeather.push(dayWeather)
+    }
 
-        $("#weatherData").empty();
-        $("#weatherData").html(`icon: ${icon}, description: ${description}, temperature: ${temperature}`); 
-        // format all the HTML inside this div
-      }
-    });
-  }
-    
+      aCallback(dayWeather);
+    }
+  });
+}
 
-  // Event handler for user clicking the select-weather button.
-  $("#select-city").on("click", function(event) {
-    // Preventing the button from trying to submit the form.
-    event.preventDefault();
-    // Storing the weather data.
-    var inputWeather = $("#city-input");
+function getWeather(lat, long) {
 
-    // Running the searchWeatherInArea function;
-    searchWeatherInArea(33.7, 84.3);
-
+  searchWeatherInArea(lat, long, function(days) {
+    console.log();
   });
 
-  function getWeather(lat, long){
-
-    searchWeatherInArea(lat, long);
-
-  }
+}
 
 
