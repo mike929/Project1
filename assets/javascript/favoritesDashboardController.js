@@ -136,6 +136,7 @@ function favoritesDropdwnRender(favorites) {
 
         // Append the new row to the table
         $("#favorites-dropdown").append(newRow);
+
     }
 }
 

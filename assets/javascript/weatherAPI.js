@@ -1,10 +1,13 @@
 function searchWeatherInArea(lat, long, aCallback) {
+  const CORSFix = "https://cors-anywhere.herokuapp.com/";
+
 
   // Querying the weather api for the selected city 
   var apiKey = "94aaecbfef6d8d2885bebd3b1512da6f";
   var exclude = "?exclude=minutely,alerts,flags";
   var unit = "?units=si";
-  var url = "https://api.darksky.net/forecast/" + apiKey + "/" + lat + "," + long + exclude + unit;
+  // var url = "https://api.darksky.net/forecast/" + apiKey + "/" + lat + "," + long + exclude + unit;
+  let url = `https://api.darksky.net/forecast/${apiKey}/${lat},${long}${exclude}${unit}`;
 
   //get darksky api data
   $.ajax({
