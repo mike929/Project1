@@ -17,6 +17,16 @@ function errorRender(err) {
  * Renderring weather data for now while waiting on Kelsie
  * ====================================================================================================
  */
+function doesExist(stringTpFind, insideStr) {
+    // Do work
+    var str = "Hello world, welcome to the universe.";
+    if (insideStr.indexOf(stringTpFind) > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function weatherDailyRender(dailyWeather) {
 
     $(`#weatherDataWeek`).empty();
@@ -29,14 +39,25 @@ function weatherDailyRender(dailyWeather) {
         let convertedDate = moment.unix(dailyWeather[i].day);
         let dayOfWeek = convertedDate.format('dddd');
         convertedDate = convertedDate.format("MM-DD");
+        let lowTemp = dailyWeather[i].lowTemp.toFixed(0);
+        let highTemp = dailyWeather[i].highTemp.toFixed(0);
+
+        console.log(dailyWeather[i].icon);
+        let caption = "Normal";
+
+        if (dailyWeather[i].icon.indexOf('partly') >= 0) {
+            caption = "Partly Cloudy";
+        } else {
+            caption = dailyWeather[i].icon;
+        }
 
         newDay = $(`<div data-index="${i}" data-day="${dayOfWeek}" class="key weatherDay">`).append(
-            $(`<kbd>`).text(convertedDate),
+            $(`<div>`).text(convertedDate),
             $(`<kbd>`).text(dayOfWeek),
-            $(`<span class="value">${dailyWeather[i].lowTemp} / ${dailyWeather[i].highTemp}</div>`),
+            $(`<span class="value">${lowTemp} / ${highTemp}</div>`),
             $(`<span>`).attr("id", "switch"),
             $(`<canvas width="54px" height="54px" id="icon"></canvas>`),
-            $(`<div class="sound temperature">${dailyWeather[i].icon}</div>`)
+            $(`<div class="sound temperature">${caption}</div>`)
         );
 
         $(`#weatherDataWeek`).append(newDay);
@@ -99,7 +120,7 @@ function currentFavoriteHandler(key) {
             httpGet(url, function (weatherData) {
                 console.log(weatherData);
 
-                for (let i in weatherData.daily.data) {
+                for (let i = 0; i < 7; i++) {
                     let dayWeather = {};
 
                     dayWeather.day = weatherData.daily.data[i].time;
