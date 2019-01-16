@@ -248,6 +248,44 @@ $(document).ready(function () {
         selectedDaysWeatherRender(selectedDayWeather);
     });
 
+    let placesCard = document.querySelector('#placesCard');
+    let placesShowingFront = true;
+    $('#placesCard .back').hide();
+    $('#placesCard .front').show();
+
+    $(document.body).on("click", '#placesCard', function () {
+        placesCard.classList.toggle('is-flipped');
+        if (placesShowingFront) {
+            placesShowingFront = false;
+            $('#placesCard .back').show();
+            $('#placesCard .front').hide();
+        } else {
+            placesShowingFront = true;
+
+            $('#placesCard .front').show();
+            $('#placesCard .back').hide();
+        }
+    });
+
+    let weatherCard = document.querySelector('#weatherCard');
+    let weatherShowingFront = true;
+    $('#weatherCard .front').show();
+    $('#weatherCard .back').hide();
+
+    $(document.body).on("click", '#weatherCard', function () {
+        weatherCard.classList.toggle('is-flipped');
+        if (weatherShowingFront) {
+            weatherShowingFront = false;
+            $('#weatherCard .back').show();
+            $('#weatherCard .front').hide();
+        } else {
+            weatherShowingFront = true;
+            $('#weatherCard .front').show();
+            $('#weatherCard .back').hide();
+        }
+    });
+
+
     // MAIN Start
     // Populate this list of favorite places in the database
     favoritesGetByName(function (favs) {
@@ -266,26 +304,6 @@ $(document).ready(function () {
                 currentFavoriteHandler(favoritePlaces[0].key);
             }
         }
-    });
-
-    let card = document.querySelector('#placesCard');
-    let showingFront = true;
-
-    // let card = $('.cardR');
-    $(document.body).on("click", '.cardR', function () {
-        card.classList.toggle('is-flipped');
-        if (showingFront) {
-            showingFront = false;
-            $('#placesCard .back').show();
-            $('#placesCard .front').hide();
-        } else {
-            showingFront = true;
-
-            $('#placesCard .front').show();
-            $('#placesCard .back').hide();
-        }
-        console.log('is-flipped');
-
     });
 
 }); // (document).ready

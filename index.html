@@ -100,12 +100,6 @@
         <!-- =============================================================================================== -->
         <section class="container weather" id="weatherSection">
 
-            <!-- Weather Current (for future placement -->
-            <!-- --------------------------------------- -->
-            <div class="container-fluid" id="weatherCurrent">
-
-            </div>
-
             <!-- Weather Cards for Week -->
             <!-- --------------------------------------- -->
             <div class="container-fluid" id="weatherCardDeck">
@@ -143,14 +137,6 @@
                             <span class="sound">Sunny</span>
                         </div>
                     </div>
-                    <!-- <div data-key="75" class="key">
-                <kbd>K</kbd>
-                <span class="sound">tom</span>
-            </div>
-            <div data-key="76" class="key">
-                <kbd>L</kbd>
-                <span class="sound">tink</span>
-            </div> -->
                 </div>
 
                 <!-- <audio data-key="65" src="sounds/clap.wav"></audio>
@@ -175,24 +161,46 @@
             <!-- Weather Table -->
             <!-- --------------------------------------- -->
             <div class="col container" id="weatherDashboard">
-                <div class="card mb-4">
-                    <div class="card-header" id="selectedDateRange">Weather for Day"></span></div>
-                    <div class="card-body">
-                        <table class="table w-auto table-responsive-lg table-sm table-hover table-striped" id='daysWeather-table'>
-                            <thead>
-                                <tr>
-                                    <th scope="col">Time</th>
-                                    <th scope="col">Temp Low</th>
-                                    <th scope="col">Temp High</th>
-                                    <th scope="col">Rain</th>
-                                    <th scope="col">Humidity</th>
-                                    <th scope="col">Wind</th>
-                                    <th scope="col">Description</th>
-                                </tr>
-                            </thead>
-                            <tbody id="weatherDataDay">
-                            </tbody>
-                        </table>
+                <div class="card cardR mb-4" id="weatherCard">
+                    <!-- Weather Current (for future placement -->
+                    <!-- --------------------------------------- -->
+                    <div class="front">
+                        <div class="card-header" id="selectedDateRange">Details Weather<small class="float-right">
+                                <button type="button" class="swap">
+                                    Swap
+                                </button>
+                            </small>
+                        </div>
+                        <div class="card-body" id="detailedWeatherData">
+                            <div class="container-fluid" id="weatherCurrent">
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- Weather Table -->
+                    <!-- --------------------------------------- -->
+
+                 <div class="back">
+                        <div class="card-header" id="selectedDateRange">Weather for Day
+                        </div>
+                        <div class="card-body">
+                            <table class="table w-auto table-responsive-lg table-sm table-hover table-striped" id='daysWeather-table'>
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Time</th>
+                                        <th scope="col">Temp Low</th>
+                                        <th scope="col">Temp High</th>
+                                        <th scope="col">Rain</th>
+                                        <th scope="col">Humidity</th>
+                                        <th scope="col">Wind</th>
+                                        <th scope="col">Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="weatherDataDay">
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
