@@ -240,12 +240,24 @@ $(document).ready(function () {
         }
     });
 
-    let card = document.querySelector('.cardR');
+    let card = document.querySelector('#placesCard');
+    let showingFront = true;
+
     // let card = $('.cardR');
     $(document.body).on("click", '.cardR', function () {
         card.classList.toggle('is-flipped');
+        if (showingFront) {
+            showingFront = false;
+            $('#placesCard .back').show();
+            $('#placesCard .front').hide();
+        } else {
+            showingFront = true;
+
+            $('#placesCard .front').show();
+            $('#placesCard .back').hide();
+        }
         console.log('is-flipped');
-  
+
     });
 
 }); // (document).ready
