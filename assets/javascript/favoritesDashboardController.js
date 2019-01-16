@@ -120,13 +120,8 @@ function currentWeatherRender(weatherCurrent) {
     $(`#weatherCurrent`).append(newRow);
 }
 
-function testGetWeatherCallBack(weatherCurrent, weatherArray) {
-    dayWeather = weatherArray.slice();
-    currentWeather = weatherCurrent;
-
-    // Render Weekly
-    weatherDailyRender(dailyWeather);
-    selectedDaysWeatherRender(dailyWeather);
+function testGetWeatherCallback(weatherArray) {
+    console.log(weatherArray);
 }
 
 // render the HTML from the the array into the table
@@ -204,7 +199,7 @@ function currentFavoriteHandler(key) {
                 selectedDaysWeatherRender(dailyWeather);
             }, errorRender);
 
-            // getWeather(geoLocation, testGetWeatherCallBack, errorRender);
+            getWeatherAPI(geoLocation.lat, geoLocation.lng, testGetWeatherCallBack);
 
             // Call places api
             getPlaceInfo(favoriteFB);

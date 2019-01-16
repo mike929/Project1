@@ -239,7 +239,7 @@ const dailyWeatherClass = [{
     highTemp: ""
 }];
 
-function getWeather(geoLocation, aCallback, errCallback) {
+function getWeatherDB(geoLocation, aCallback, errCallback) {
     let currentWeather = {};
     let dailyWeather = [];
     const exclude = "?exclude=minutely,alerts,flags";
