@@ -242,15 +242,16 @@ const dailyWeatherClass = [{
 function getWeatherDB(geoLocation, aCallback, errCallback) {
     let currentWeather = {};
     let dailyWeather = [];
+    
     const exclude = "?exclude=minutely,alerts,flags";
     const unit = "?units=si";
-
-
-    let url = `https://api.darksky.net/forecast/${PAUL_DARKSKY_APIKEY}/${geoLocation.lat},${geoLocation.lng}${exclude}${unit}`;
-
+    const CORSFix = "https://cors-anywhere.herokuapp.com/";
+    
+    let url = `${CORSFix}https://api.darksky.net/forecast/${PAUL_DARKSKY_APIKEY}/${geoLocation.lat},${geoLocation.lng}${exclude}${unit}`;
+    
     httpGet(url, function (weatherData) {
         console.log(weatherData);
-
+    
         currentWeather = {};
         currentWeather.day = weatherData.currently.time;
         currentWeather.timeZone = weatherData.timezone;
@@ -261,15 +262,13 @@ function getWeatherDB(geoLocation, aCallback, errCallback) {
         currentWeather.wind = weatherData.currently.windSpeed;
         currentWeather.summary = weatherData.currently.summary;
         currentWeather.icon = weatherData.currently.icon;
-        currentWeather.lowTemp = "";
-        currentWeather.highTemp = "";
-
+    
         dailyWeather = [];
         dailyWeather.length = 0; // prevent leaks
-
+    
         for (let i = 0; i < 7; i++) {
             let dayWeather = {};
-
+    
             dayWeather.day = weatherData.daily.data[i].time;
             dayWeather.timeZone = weatherData.timezone;
             dayWeather.humidity = weatherData.daily.data[i].humidity;
@@ -279,10 +278,9 @@ function getWeatherDB(geoLocation, aCallback, errCallback) {
             dayWeather.icon = weatherData.daily.data[i].icon;
             dayWeather.lowTemp = weatherData.daily.data[i].temperatureLow;
             dayWeather.highTemp = weatherData.daily.data[i].temperatureHigh;
-
+    
             dailyWeather.push(dayWeather);
         }
-
         aCallback(currentWeather, dailyWeather);
 
     }, errCallback);

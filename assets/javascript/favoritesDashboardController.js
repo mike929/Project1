@@ -28,7 +28,7 @@ function doesExist(stringTpFind, insideStr) {
     }
 }
 
-// Render the cards for each day
+// Render the card deck for each day - across the top
 function weatherDailyRender(dailyWeather) {
 
     $(`#weatherDataWeek`).empty();
@@ -66,7 +66,8 @@ function weatherDailyRender(dailyWeather) {
     }
 }
 
-// renderr one days weather - hourly (for now do days)
+// Right now this renders the next 7 days
+// but it should probably get a feature to pass in the next 12 hours
 function weatherTableRender(weatherDataRows) {
     // Note Table ID is: $("#daysWeather-table") in case I need to overwrite whole table
 
@@ -107,7 +108,8 @@ function weatherTableRender(weatherDataRows) {
     }
 }
 
-// 
+// Render the current weather in th weather card
+// This is use when no days are selected to show the weather for
 function currentWeatherRender(weatherCurrent) {
 
     $("#selectedDateRangeDetails").html(`Current Weather
@@ -174,11 +176,12 @@ function selectedDayWeatherRender(daysWeather) {
     $(`#detailedWeatherData`).append(newRow);
 }
 
+// manage the data when it comes back from weather - testing data returned
 function testGetWeatherCallback(weatherArray) {
     console.log(weatherArray);
 }
 
-// render the HTML from the the array into the table
+// render the HTML for the dropdown selector from the the array into the table
 function favoritesDropdwnRender(favorites) {
 
     $("#favorites-dropdown").empty();
@@ -195,6 +198,8 @@ function favoritesDropdwnRender(favorites) {
 }
 
 // Handle renderring for the favoritie the user has chosen
+// It takes in the database key for the place and uses that
+// to get the data and render it
 function currentFavoriteHandler(key) {
     favoriteGet(key, function (favoriteFB) {
         console.log(favoriteFB);
@@ -208,44 +213,9 @@ function currentFavoriteHandler(key) {
             geoLocation.lat = favoriteFB.lat;
             geoLocation.lng = favoriteFB.lng;
 
-            const exclude = "?exclude=minutely,alerts,flags";
-            const unit = "?units=si";
-            const CORSFix = "https://cors-anywhere.herokuapp.com/";
-
-            let url = `${CORSFix}https://api.darksky.net/forecast/${PAUL_DARKSKY_APIKEY}/${geoLocation.lat},${geoLocation.lng}${exclude}${unit}`;
-
-            httpGet(url, function (weatherData) {
-                console.log(weatherData);
-
-                currentWeather = {};
-                currentWeather.day = weatherData.currently.time;
-                currentWeather.timeZone = weatherData.timezone;
-                currentWeather.currentTemp = weatherData.currently.temperature;
-                currentWeather.feelsLike = weatherData.currently.apparentTemperature;
-                currentWeather.humidity = weatherData.currently.humidity;
-                currentWeather.chanceOfRain = weatherData.currently.precipProbability;
-                currentWeather.wind = weatherData.currently.windSpeed;
-                currentWeather.summary = weatherData.currently.summary;
-                currentWeather.icon = weatherData.currently.icon;
-
-                dailyWeather = [];
-                dailyWeather.length = 0; // prevent leaks
-
-                for (let i = 0; i < 7; i++) {
-                    let dayWeather = {};
-
-                    dayWeather.day = weatherData.daily.data[i].time;
-                    dayWeather.timeZone = weatherData.timezone;
-                    dayWeather.humidity = weatherData.daily.data[i].humidity;
-                    dayWeather.chanceOfRain = weatherData.daily.data[i].precipProbability;
-                    dayWeather.wind = weatherData.daily.data[i].windSpeed;
-                    dayWeather.summary = weatherData.daily.data[i].summary;
-                    dayWeather.icon = weatherData.daily.data[i].icon;
-                    dayWeather.lowTemp = weatherData.daily.data[i].temperatureLow;
-                    dayWeather.highTemp = weatherData.daily.data[i].temperatureHigh;
-
-                    dailyWeather.push(dayWeather);
-                }
+            getWeatherDB(geoLocation, function (weatherNow, weatherArray) {
+                dailyWeather = weatherArray.slice();
+                currentWeather = weatherNow;
 
                 // Render Weekly
                 weatherDailyRender(dailyWeather);
@@ -261,6 +231,22 @@ function currentFavoriteHandler(key) {
     });
 }
 
+// Handle rendering of the cards to flip them and show fron or back
+function cardFlipRender(showingFront, cardTag) {
+
+    $(`${cardTag}`).toggleClass('is-flipped');
+    if (showingFront) {
+        $(`${cardTag} .back`).show();
+        $(`${cardTag} .front`).hide();
+        return (false);
+    } else {
+        $(`${cardTag} .front`).show();
+        $(`${cardTag} .back`).hide();
+        return (true);
+    }
+}
+
+
 // Wait for doc to be ready
 $(document).ready(function () {
 
@@ -273,11 +259,9 @@ $(document).ready(function () {
 
         // run the function that calls the DB and handles the result
         currentFavoriteHandler(key);
-
-
     });
 
-    // Select a day 
+    // Select a day from the icons and display more detail for that day
     $(document.body).on("click", ".weatherDay", function () {
 
         var index = $(this).attr("data-index");
@@ -287,43 +271,21 @@ $(document).ready(function () {
         selectedDayWeatherRender(dailyWeather[index]);
     });
 
-    let placesCard = document.querySelector('#placesCard');
+    // This section handles places card rotation for front and back
     let placesShowingFront = true;
-    $('#placesCard .back').hide();
     $('#placesCard .front').show();
-
+    $('#placesCard .back').hide();
     $(document.body).on("click", '#placesCard', function () {
-        placesCard.classList.toggle('is-flipped');
-        if (placesShowingFront) {
-            placesShowingFront = false;
-            $('#placesCard .back').show();
-            $('#placesCard .front').hide();
-        } else {
-            placesShowingFront = true;
-
-            $('#placesCard .front').show();
-            $('#placesCard .back').hide();
-        }
+        placesShowingFront = cardFlipRender(placesShowingFront, '#placesCard');
     });
 
-    let weatherCard = document.querySelector('#weatherCard');
+    // This section handles weather card rotation for front and back
     let weatherShowingFront = true;
     $('#weatherCard .front').show();
     $('#weatherCard .back').hide();
-
     $(document.body).on("click", '#weatherCard', function () {
-        weatherCard.classList.toggle('is-flipped');
-        if (weatherShowingFront) {
-            weatherShowingFront = false;
-            $('#weatherCard .back').show();
-            $('#weatherCard .front').hide();
-        } else {
-            weatherShowingFront = true;
-            $('#weatherCard .front').show();
-            $('#weatherCard .back').hide();
-        }
+        weatherShowingFront = cardFlipRender(weatherShowingFront, '#weatherCard');
     });
-
 
     // MAIN Start
     // Populate this list of favorite places in the database
