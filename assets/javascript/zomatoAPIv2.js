@@ -64,6 +64,7 @@
      url: queryURL2,
      method: "GET"
    }).then(function(zomatoResponse2) {
+    $("#places-table").empty();
        for (i=0; i<5; i++) {
          var name = zomatoResponse2.best_rated_restaurant[i].restaurant.name
          var type = zomatoResponse2.best_rated_restaurant[i].restaurant.cuisines
