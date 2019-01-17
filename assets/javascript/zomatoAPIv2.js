@@ -18,8 +18,9 @@
  //1st API call to zomato api - this returns city data that we need to use to call in the 
  //darksky api (lat/long).  This also returns data we need in our second api call to zomato
  // that gives us the restaurant info (we need cityID and entityType in our second call to zomato api)
- var queryURL1 ="https://developers.zomato.com/api/v2.1/locations?query=" + userCitySearch + "&apikey=" + apiKey
- function locationInfoCall(callback){
+ 
+ function locationInfoCall(lat,long,callback){
+    var queryURL1 =`https://developers.zomato.com/api/v2.1/locations?lat=${lat}&lon=${long}&apikey=${apiKey}`;
      $.ajax({
          url: queryURL1,
          method: "GET"
@@ -52,7 +53,7 @@
     //      lat: "",
     //      lng: ""
      // };
-     locationInfoCall(foodInfoCall);
+     locationInfoCall(placeObject.lat, placeObject.lng,foodInfoCall);
  }
  
  // return lat long from city
@@ -63,6 +64,7 @@
      url: queryURL2,
      method: "GET"
    }).then(function(zomatoResponse2) {
+    $("#places-table").empty();
        for (i=0; i<5; i++) {
          var name = zomatoResponse2.best_rated_restaurant[i].restaurant.name
          var type = zomatoResponse2.best_rated_restaurant[i].restaurant.cuisines
