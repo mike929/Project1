@@ -60,9 +60,13 @@ function weatherDailyRender(dailyWeather) {
             $(`<span>`).attr("id", "switch"),
             $(`<canvas width="54px" height="54px" id="icon"></canvas>`),
             $(`<div class="sound temperature">${caption}</div>`)
-        );
 
+        );
+        var skycons = new Skycons({"color": "red"});
+        skycons.add("icon", Skycons.PARTLY_CLOUDY_DAY);
+        skycons.play();
         $(`#weatherDataWeek`).append(newDay);
+        
     }
 }
 
