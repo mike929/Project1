@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" media="screen" href="assets/css/reset.css" />
     <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css?family=Philosopher" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=BioRhyme+Expanded">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" media="screen" href="assets/css/style.css" />
@@ -175,15 +176,42 @@
                         <div class="card-body" id="detailedWeatherData">
                             <div class="container-fluid" id="weatherCurrent">
                                 <div id="CurD">Thursday</div>
-                               <div id="temp">45<sup>&#8457</sup></div> 
+                                <div class="circle">
+                                    <div id="temp">45<sup>&#8457</sup>
+                                    </div>
+                                </div>
+                                <div id="feelsL">Feels Like</div>
+                                <div id="feels">59<sup>&#8457</sup></div>
+                                <div class="stats-container">
+                                    <div class="stats">
+                                        <h4>25<sub>&percnt;</sub></h4>
+                                        <p>
+                                            Rain
+                                        </p>
+                                    </div>
+                                    <div class="stats">
+                                        <h4>67<sub>&percnt;</sub></h4>
+                                        <p>
+                                            Humidity
+                                        </p>
+                                    </div>
+                                    <div class="stats">
+                                        <h4>35</h4>
+                                        <p>
+                                            Wind
+                                        </p>
+                                    </div>
+                                </div>
+
                             </div>
+                            <div class="footer">Current Condition</div>
 
                         </div>
                     </div>
                     <!-- Weather Table -->
                     <!-- --------------------------------------- -->
 
-                 <div class="back">
+                    <div class="back">
                         <div class="card-header" id="selectedDateRangeTable">Weather for Day
                         </div>
                         <div class="card-body">
@@ -301,6 +329,8 @@
     <script src="assets/javascript/weatherAPIicons.js"></script>
     <script src="assets/javascript/skycons.js"></script>
     <script src="assets/javascript/suggestions.js"></script>
+    <!-- <script src="assets/javascript/circleText.js"></script>
+    <script src="assets/javascript/circletype.min.js"></script> -->
 
     <!-- leave controller script at bottom of links -->
     <script src="assets/javascript/favoritesDashboardController.js"></script>
