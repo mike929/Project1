@@ -174,7 +174,7 @@ function currentWeatherRender(weatherCurrent) {
     let chanceOfRain = (weatherCurrent.chanceOfRain * 100);
     chanceOfRain = chanceOfRain.toFixed(0);
     let humidity = (weatherCurrent.humidity * 100);
-    chanceOfRain = humidity.toFixed(0);
+    humidity = humidity.toFixed(0);
 
     $("#selectedDateRangeDetails").html(`<span class="cardTitleInfo">${dayOfWeek} ${convertedDate}</span>
     <button type="button" class="float-right">
@@ -188,8 +188,8 @@ function currentWeatherRender(weatherCurrent) {
         $(`<div class="weatherSummaryInfo">${weatherCurrent.summary}</div>`),
         //$(`<div class="circle"><div id="temp">${currentTemp}<sup>&#8457</sup></div></div>`),
         $(`<div class="d-flex justify-content-between">
-        <div class="temperatureDisplay">Lo Temp<br>${currentTemp}<sup>&#8457</sup></div>
-        <div class="temperatureDisplay">High Temp<br>${feelsLike}<sup>&#8457</sup></div>
+        <div class="temperatureDisplay">Temperature<br>${currentTemp}<sup>&#8457</sup></div>
+        <div class="temperatureDisplay">Feels Like<br>${feelsLike}<sup>&#8457</sup></div>
         </div>`),
         //$(`<div class="temperatureDisplay">Temp ${currentTemp}<sup>&#8457</sup></div>`),
         //$(`<div class="tempRight">Feels Like</div><div class="tempRight">${feelsLike}<sup>&#8457</sup></div>`),
@@ -213,7 +213,7 @@ function selectedDayWeatherRender(weatherCurrent) {
     let chanceOfRain = (weatherCurrent.chanceOfRain * 100);
     chanceOfRain = chanceOfRain.toFixed(0);
     let humidity = (weatherCurrent.humidity * 100);
-    chanceOfRain = humidity.toFixed(0);
+    humidity = humidity.toFixed(0);
 
     $("#selectedDateRangeDetails").html(`<span class="cardTitleInfo">${dayOfWeek} ${convertedDate}</span>
     <button type="button" class="float-right">
@@ -226,8 +226,8 @@ function selectedDayWeatherRender(weatherCurrent) {
     newRow = $(`<div data-day="${dayOfWeek}">`).append(
         $(`<div class="weatherSummaryInfo">${weatherCurrent.summary}</div>`),
         $(`<div class="d-flex justify-content-between">
-        <div class="temperatureDisplay">Temp<br>${lowTemp}<sup>&#8457</sup></div>
-        <div class="temperatureDisplay">Feels Like<br>${highTemp}<sup>&#8457</sup></div>
+        <div class="temperatureDisplay">Lo Temp<br>${lowTemp}<sup>&#8457</sup></div>
+        <div class="temperatureDisplay">Hi Temp<br>${highTemp}<sup>&#8457</sup></div>
         </div>`),
         $(`<div class="stats-container">`),
         $(`<div class="stats"><h4>${chanceOfRain}<sub>&percnt;</sub></h4><p>Rain</p></div>`),
