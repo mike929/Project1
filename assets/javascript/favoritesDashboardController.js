@@ -61,7 +61,7 @@ function weatherDailyRender(dailyWeather) {
         console.log(dailyWeather[i].icon);
         let caption = makeReadableCaption(dailyWeather[i].icon);
 
-        newDay = $(`<div data-index="${i}" data-day="${dayOfWeek}" class="key weatherDay">`).append(
+        newDay = $(`<div onClick="" data-index="${i}" data-day="${dayOfWeek}" class="key weatherDay">`).append(
             $(`<div>`).text(convertedDate),
             $(`<kbd>`).text(dayOfWeek),
             $(`<span class="value">${lowTemp} / ${highTemp}</div>`),
