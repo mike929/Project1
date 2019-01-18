@@ -147,7 +147,7 @@ kbd {
 
 .card .footer {
     border-top: 1px solid #EEEEEE;
-    color: #999999;
+    color: #3f6eee;
     margin: 30px 0 0;
     padding: 80px 0 0;
     text-align: center;
@@ -164,6 +164,10 @@ kbd {
 
 #temp {
     font-size: 30px;
+}
+
+#condition {
+    text-align: center;
 }
 
 /*-----------------Card Rotation---------------------------*/
