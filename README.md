@@ -4,24 +4,32 @@
 
 This is the team for Project 1.  Team Members are:
 
-* Kelsie Daniels
-* Justin Thomas
-* Michael Wilson
-* Paul Linck
+* Kelsie Daniels - Weather API
+* Justin Thomas - Zomato Places
+* Michael Wilson - UX/UI and geolcation
+* Paul Linck - firebase, and google address validation
 
 ## Project Description
 
-This is a location/weather application.  You will be able populate weather information and top restaurants in any given city.  You will also be able add buttons for your favorite cities to search
+This is a Traveler Dashboard application.  You will be able populate weather information and top restaurants in any given place (city, address, POI etc).  You will also be able add and store  your favorite places to search.
 
 ## Sketch of Final Project
 
-![Screen Example](assets/images/WeatherSketch.jpg)
+![Screen Example](assets/images/DashboardSample.png)
+![Animate](assets/images/DashboardAnimate.gif)
+![Edit Example](assets/images/dashboardedit.png)
+![Edit Animate](assets/images/EditDashboardAnimate.gif)
 
 ## APIs Used
 
-Dark Weather API
-Zomato API for places
-Firebase
+* Dark Weather API
+* Zomato API for places
+* Firebase for data storage of favorite places
+* Google Maps for geolocation and address validation
+
+## Architecture Overview
+
+![Overview](assets/images/DashboardArch.png)
 
 ## Breakdown of Tasks
 
