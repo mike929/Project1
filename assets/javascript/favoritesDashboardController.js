@@ -273,7 +273,7 @@ function currentFavoriteHandler(key) {
                 // Render Weekly
                 weatherDailyRender(dailyWeather);
                 weatherTableRender(dailyWeather);
-                currentWeatherRender(currentWeather);
+                // currentWeatherRender(currentWeather);
             }, errorRender);
 
             // getWeatherAPI(geoLocation.lat, geoLocation.lng, testGetWeatherCallback);
@@ -321,7 +321,7 @@ $(document).ready(function () {
         var day = $(this).attr("data-day");
         var temp = $(this).attr("data-temp");
 
-        selectedDayWeatherRender(dailyWeather[index]);
+        // selectedDayWeatherRender(dailyWeather[index]);
     });
 
     // This section handles places card rotation for front and back
