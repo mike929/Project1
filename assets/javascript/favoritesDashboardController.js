@@ -28,6 +28,20 @@ function doesExist(stringTpFind, insideStr) {
     }
 }
 
+// make caption from icon
+function makeReadableCaption(iconInfo) {
+
+    let newCaption = iconInfo.split('-');
+    if (newCaption.length == 3) { // take middle
+        return newCaption[1];
+    } else if (newCaption.length == 2) { // take first
+        return newCaption[0];
+    } else { // take whole
+        return iconInfo;
+    }
+
+}
+
 // Render the card deck for each day - across the top
 function weatherDailyRender(dailyWeather) {
 
@@ -45,24 +59,63 @@ function weatherDailyRender(dailyWeather) {
         let highTemp = dailyWeather[i].highTemp.toFixed(0);
 
         console.log(dailyWeather[i].icon);
-        let caption = "Normal";
-
-        if (dailyWeather[i].icon.indexOf('partly') >= 0) {
-            caption = "Partly Cloudy";
-        } else {
-            caption = dailyWeather[i].icon;
-        }
+        let caption = makeReadableCaption(dailyWeather[i].icon);
 
         newDay = $(`<div data-index="${i}" data-day="${dayOfWeek}" class="key weatherDay">`).append(
             $(`<div>`).text(convertedDate),
             $(`<kbd>`).text(dayOfWeek),
             $(`<span class="value">${lowTemp} / ${highTemp}</div>`),
             $(`<span>`).attr("id", "switch"),
-            $(`<canvas width="54px" height="54px" id="icon"></canvas>`),
+            $(`<canvas width="54px" height="54px" id="icon-${i}"></canvas>`),
             $(`<div class="sound temperature">${caption}</div>`)
-        );
 
+        );
         $(`#weatherDataWeek`).append(newDay);
+        // Create the cool skycon icon
+        var skycons = new Skycons({
+            "color": "white"
+        });
+
+        let currentIcon = dailyWeather[i].icon;
+        switch (currentIcon) {
+            case "party-cloudy-night":
+                skycons.add(`icon-${i}`, Skycons.PARTLY_CLOUDY_NIGHT);
+                break;
+            case "party-cloudy-day":
+                skycons.add(`icon-${i}`, Skycons.PARTLY_CLOUDY_DAY);
+                break;
+            case "clear-day":
+                skycons.add(`icon-${i}`, Skycons.CLEAR_DAY);
+                break;
+            case "clear-night":
+                skycons.add(`icon-${i}`, Skycons.CLEAR_NIGHT);
+                break;
+            case "cloudy":
+                skycons.add(`icon-${i}`, Skycons.CLOUDY);
+                break;
+            case "rain":
+                skycons.add(`icon-${i}`, Skycons.RAIN);
+                break;
+            case "sleet":
+                skycons.add(`icon-${i}`, Skycons.SLEET);
+                break;
+            case "snow":
+                skycons.add(`icon-${i}`, Skycons.SNOW);
+                break;
+            case "wind":
+                skycons.add(`icon-${i}`, Skycons.WIND);
+                break;
+            case "fogy":
+                skycons.add(`icon-${i}`, Skycons.FOG);
+                break;
+            default:
+                skycons.add(`icon-${i}`, Skycons.PARTLY_CLOUDY_DAY);
+                break;
+
+        }
+        skycons.play();
+
+
     }
 }
 
