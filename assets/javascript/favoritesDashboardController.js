@@ -165,67 +165,75 @@ function weatherTableRender(weatherDataRows) {
 // This is use when no days are selected to show the weather for
 function currentWeatherRender(weatherCurrent) {
 
-    $("#selectedDateRangeDetails").html(`Current Weather
-    <small class="float-right">
-    <button type="button" class="swap">
+    // Compute Day of Weak from day in object
+    let convertedDate = moment.unix(weatherCurrent.day);
+    let dayOfWeek = convertedDate.format('dddd');
+    convertedDate = convertedDate.format("MM-DD-YYYY");
+    let currentTemp = weatherCurrent.currentTemp.toFixed(0);
+    let feelsLike = weatherCurrent.feelsLike.toFixed(0);
+    let chanceOfRain = (weatherCurrent.chanceOfRain * 100);
+    chanceOfRain = chanceOfRain.toFixed(0);
+    let humidity = (weatherCurrent.humidity * 100);
+    chanceOfRain = humidity.toFixed(0);
+
+    $("#selectedDateRangeDetails").html(`<span class="cardTitleInfo">${dayOfWeek} ${convertedDate}</span>
+    <button type="button" class="float-right">
         Swap
     </button>`);
 
     $(`#detailedWeatherData`).empty();
     let newRow;
+
+    newRow = $(`<div data-day="${dayOfWeek}">`).append(
+        $(`<div class="weatherSummaryInfo">${weatherCurrent.summary}</div>`),
+        //$(`<div class="circle"><div id="temp">${currentTemp}<sup>&#8457</sup></div></div>`),
+        $(`<div class="d-flex justify-content-between">
+        <div class="temperatureDisplay">Lo Temp<br>${currentTemp}<sup>&#8457</sup></div>
+        <div class="temperatureDisplay">High Temp<br>${feelsLike}<sup>&#8457</sup></div>
+        </div>`),
+        //$(`<div class="temperatureDisplay">Temp ${currentTemp}<sup>&#8457</sup></div>`),
+        //$(`<div class="tempRight">Feels Like</div><div class="tempRight">${feelsLike}<sup>&#8457</sup></div>`),
+        $(`<div class="stats-container">`),
+        $(`<div class="stats"><h4>${chanceOfRain}<sub>&percnt;</sub></h4><p>Rain</p></div>`),
+        $(`<div class="stats"><h4>${humidity}<sub>&percnt;</sub></h4><p>Humidity</p></div>`),
+        $(`<div class="stats"><h4>${weatherCurrent.wind}<sub> mph</sub></h4><p>Wind Speed</p></div>`)
+    );
+    $(`#detailedWeatherData`).append(newRow);
+}
+
+// This is use when no days are selected to show the weather for
+function selectedDayWeatherRender(weatherCurrent) {
 
     // Compute Day of Weak from day in object
     let convertedDate = moment.unix(weatherCurrent.day);
     let dayOfWeek = convertedDate.format('dddd');
     convertedDate = convertedDate.format("MM-DD-YYYY");
+    let lowTemp = weatherCurrent.lowTemp.toFixed(0);
+    let highTemp = weatherCurrent.highTemp.toFixed(0);
+    let chanceOfRain = (weatherCurrent.chanceOfRain * 100);
+    chanceOfRain = chanceOfRain.toFixed(0);
+    let humidity = (weatherCurrent.humidity * 100);
+    chanceOfRain = humidity.toFixed(0);
 
-    newRow = $(`<div data-day="${dayOfWeek}">`).append(
-        $("<div>").text(`Day: ${dayOfWeek}`),
-        $("<div>").text(`Temperature: ${weatherCurrent.currentTemp}`),
-        $("<div>").text(`Feels Like: ${weatherCurrent.feelsLike}`),
-        $("<div>").text(`Rain: ${weatherCurrent.chanceOfRain}`),
-        $("<div>").text(`Humidity: ${weatherCurrent.humidity}`),
-        $("<div>").text(`Wind: ${weatherCurrent.wind}`),
-        $("<div>").text(`${weatherCurrent.summary}`)
-    );
-    $(`#detailedWeatherData`).append(newRow);
-}
-
-// show current slected days weather
-function selectedDayWeatherRender(daysWeather) {
-
-    $("#selectedDateRangeDetails").html(`Selected Days Weather
-    <small class="float-right">
-    <button type="button" class="swap">
+    $("#selectedDateRangeDetails").html(`<span class="cardTitleInfo">${dayOfWeek} ${convertedDate}</span>
+    <button type="button" class="float-right">
         Swap
     </button>`);
 
     $(`#detailedWeatherData`).empty();
     let newRow;
 
-    // Compute Day of Weak from day in object
-    let convertedDate = moment.unix(daysWeather.day);
-    let dayOfWeek = convertedDate.format('dddd');
-    convertedDate = convertedDate.format("MM-DD");
-    let lowTemp = daysWeather.lowTemp.toFixed(0);
-    let highTemp = daysWeather.highTemp.toFixed(0);
-
-    if (daysWeather.icon.indexOf('partly') >= 0) {
-        caption = "Partly Cloudy";
-    } else {
-        caption = daysWeather.icon;
-    }
-
-    newRow = $(`<div data-day="${daysWeather.day}">`).append(
-        $("<div>").text(`${dayOfWeek}`),
-        $("<div>").text(`Low: ${lowTemp}`),
-        $("<div>").text(`High: ${highTemp}`),
-        $("<div>").text(`Rain: ${daysWeather.chanceOfRain}`),
-        $("<div>").text(`Humidity: ${daysWeather.humidity}`),
-        $("<div>").text(`Wind: ${daysWeather.wind}`),
-        $("<div>").text(`Summary: ${daysWeather.summary}`)
+    newRow = $(`<div data-day="${dayOfWeek}">`).append(
+        $(`<div class="weatherSummaryInfo">${weatherCurrent.summary}</div>`),
+        $(`<div class="d-flex justify-content-between">
+        <div class="temperatureDisplay">Temp<br>${lowTemp}<sup>&#8457</sup></div>
+        <div class="temperatureDisplay">Feels Like<br>${highTemp}<sup>&#8457</sup></div>
+        </div>`),
+        $(`<div class="stats-container">`),
+        $(`<div class="stats"><h4>${chanceOfRain}<sub>&percnt;</sub></h4><p>Rain</p></div>`),
+        $(`<div class="stats"><h4>${humidity}<sub>&percnt;</sub></h4><p>Humidity</p></div>`),
+        $(`<div class="stats"><h4>${weatherCurrent.wind}<sub> mph</sub></h4><p>Wind Speed</p></div>`)
     );
-
     $(`#detailedWeatherData`).append(newRow);
 }
 
@@ -250,6 +258,23 @@ function favoritesDropdwnRender(favorites) {
     }
 }
 
+// Handle rendering of the cards to flip them and show fron or back
+function cardFlipRender(showingFront, cardTag) {
+
+    $(`${cardTag}`).toggleClass('is-flipped');
+    if (showingFront) {
+        $(`${cardTag} .back`).show();
+        $(`${cardTag} .front`).hide();
+        return (false);
+    } else {
+        $(`${cardTag} .front`).show();
+        $(`${cardTag} .back`).hide();
+        return (true);
+    }
+}
+
+// ===================================================================
+// MAJOR RENDERING OF ALL Retrieved Data
 // Handle renderring for the favoritie the user has chosen
 // It takes in the database key for the place and uses that
 // to get the data and render it
@@ -273,7 +298,7 @@ function currentFavoriteHandler(key) {
                 // Render Weekly
                 weatherDailyRender(dailyWeather);
                 weatherTableRender(dailyWeather);
-                //currentWeatherRender(currentWeather);
+                currentWeatherRender(currentWeather);
             }, errorRender);
 
             // getWeatherAPI(geoLocation.lat, geoLocation.lng, testGetWeatherCallback);
@@ -283,22 +308,6 @@ function currentFavoriteHandler(key) {
         }
     });
 }
-
-// Handle rendering of the cards to flip them and show fron or back
-function cardFlipRender(showingFront, cardTag) {
-
-    $(`${cardTag}`).toggleClass('is-flipped');
-    if (showingFront) {
-        $(`${cardTag} .back`).show();
-        $(`${cardTag} .front`).hide();
-        return (false);
-    } else {
-        $(`${cardTag} .front`).show();
-        $(`${cardTag} .back`).hide();
-        return (true);
-    }
-}
-
 
 // Wait for doc to be ready
 $(document).ready(function () {
@@ -321,7 +330,7 @@ $(document).ready(function () {
         var day = $(this).attr("data-day");
         var temp = $(this).attr("data-temp");
 
-        //selectedDayWeatherRender(dailyWeather[index]);
+        selectedDayWeatherRender(dailyWeather[index]);
     });
 
     // This section handles places card rotation for front and back

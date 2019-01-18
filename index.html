@@ -174,36 +174,33 @@
                             </small>
                         </div>
                         <div class="card-body" id="detailedWeatherData">
-                            <div class="container-fluid" id="weatherCurrent">
-                                <div id="CurD">Thursday</div>
-                                <div class="circle">
-                                    <div id="temp">45<sup>&#8457</sup>
-                                    </div>
-                                </div>
-                                <div id="feelsL">Feels Like</div>
-                                <div id="feels">59<sup>&#8457</sup></div>
-                                <div class="stats-container">
-                                    <div class="stats">
-                                        <h4>25<sub>&percnt;</sub></h4>
-                                        <p>
-                                            Rain
-                                        </p>
-                                    </div>
-                                    <div class="stats">
-                                        <h4>67<sub>&percnt;</sub></h4>
-                                        <p>
-                                            Humidity
-                                        </p>
-                                    </div>
-                                    <div class="stats">
-                                        <h4>35</h4>
-                                        <p>
-                                            Wind
-                                        </p>
-                                    </div>
-                                </div>
+                            <div id="cardTitleInfo">Thursday</div>
 
+                            <div class="d-flex justify-content-between">
+                                <div class="temperatureDisplay">Temp<br>${currentTemp}<sup>&#8457</sup></div>
+                                <div class="temperatureDisplay">Feels Like<br>${feelsLike}<sup>&#8457</sup></div>
                             </div>
+                            <div class="stats-container">
+                                <div class="stats">
+                                    <h4>25<sub>&percnt;</sub></h4>
+                                    <p>
+                                        Rain
+                                    </p>
+                                </div>
+                                <div class="stats">
+                                    <h4>67<sub>&percnt;</sub></h4>
+                                    <p>
+                                        Humidity
+                                    </p>
+                                </div>
+                                <div class="stats">
+                                    <h4>35</h4>
+                                    <p>
+                                        Wind
+                                    </p>
+                                </div>
+                            </div>
+
                             <div class="footer">Current Conditions</div>
                             <div id="condition">Cloudy</div>
 

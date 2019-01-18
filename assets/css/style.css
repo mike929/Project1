@@ -94,7 +94,7 @@ kbd {
 
 /* ----------------Left Card Styling---------------------- */
 
-#CurD {
+.cardTitleInfo {
     font-family: 'Lobster', cursive;
     font-size: 2em;
     text-align: center;
@@ -116,9 +116,29 @@ kbd {
 #feelsL {
     text-align: right;
     font-size: 1.87em;
-
-
 }
+
+.tempRight {
+    text-align: right;
+    font-size: 1.87em;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.tempLeft {
+    text-align: left;
+    font-size: 1.87em;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.temperatureDisplay {
+    font-size: 1.87em;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.weatherSummaryInfo {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 2em;
+    text-align: center;
+    text-shadow: gray;
+}
+
 
 .card .stats{
 	display: block;
