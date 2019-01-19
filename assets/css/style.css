@@ -16,7 +16,9 @@
 
 body,
 html {
-    background: url(../images/sky-29.jpg) bottom center;
+    /* background: url(../images/sky-29.jpg) bottom center; */
+    background: url(../images/blue.sky.jpg) bottom center;
+
     background-size: 100%;
     background-size: cover;
     margin: 0;
