@@ -182,7 +182,7 @@ $(document).ready(function () {
             // re-render
             favoritesRender(favoritePlaces);
                 
-        }, errCallback);
+        }, errorRender);
 
     });
 
